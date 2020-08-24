@@ -29,14 +29,14 @@ class GenerateChangelog:
         
         """
         self.config = Config(**kwargs)
+    
+    def render_markdown(self):
         self.git_helper = GitHelper(
             self.config.git_path,
             self.config.old_version,
             self.config.new_version,
             self.config.custom_attributes
         )
-    
-    def render_markdown(self):
         """ Return the rendered markdown provided by the template """
         return self._get_markdown_template().render(
             new_version=self.config.new_version,

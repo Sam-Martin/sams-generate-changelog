@@ -115,7 +115,10 @@ class GitHelper:
 
     def get_commit(self, ref):
         """ Get a single commit from a ref """
-        return self.repo.refs[ref].commit
+        try:
+            return self.repo.refs[ref].commit
+        except IndexError:
+            return self.repo.commit(ref)
 
     def get_file_commits(self, file_path):
         """ Get Detail about all the commits pertaining
@@ -124,9 +127,9 @@ class GitHelper:
         #   "body": "%b",%n
         json_format = '{%n  "commit": "%H",%n  "abbreviated_commit": "%h",%n  "tree": "%T",%n  "abbreviated_tree": "%t",%n  "parent": "%P",%n  "abbreviated_parent": "%p",%n  "refs": "%D",%n  "encoding": "%e",%n "sanitized_subject_line": "%f",%n  "commit_notes": "%N",%n  "verification_flag": "%G?",%n  "signer": "%GS",%n  "signer_key": "%GK",%n  "author": {%n    "name": "%aN",%n    "email": "%aE",%n    "date": "%aD"%n  },%n  "commiter": {%n    "name": "%cN",%n    "email": "%cE",%n    "date": "%cD"%n  }%n},'
 
-        commit_diff = f'--pretty=={json_format}'
+        commit_diff = f'--pretty={json_format}'
         revision = f"{self.old_version}...{self.new_version}"
-        raw_log_output = self.git.log(commit_diff, revision, '---', file_path)
+        raw_log_output = self.git.log(commit_diff, revision, '--', file_path)
         valid_commit_json = f'[{raw_log_output[0:-1]}]'
         try:
             return [
