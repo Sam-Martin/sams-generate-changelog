@@ -1,0 +1,19 @@
+# {{new_version}}
+
+## New Files
+
+{%- for file in new_files %}
+ - {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
+{%- endfor%}
+
+# Modified Files
+
+{%- for file in modified_files %}
+ - {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
+{%- endfor%}
+
+# Deleted Files
+
+{%- for file in deleted_files %}
+ - {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
+{%- endfor%}
