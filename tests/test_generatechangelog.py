@@ -2,7 +2,7 @@ import logging
 import json
 import unittest
 from unittest.mock import patch, MagicMock
-from samsgeneratechangelog import GenerateChangelog, Config
+from samsgeneratechangelog import GenerateChangelog
 
 logging.basicConfig(level='DEBUG')
 
