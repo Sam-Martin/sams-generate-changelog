@@ -73,6 +73,7 @@ class GitHelper:
     """
 
     def __init__(self, path, old_commit, new_commit, custom_attributes=None):
+        logging.debug(f'Using git repo {path}')
         self.repo = git.Repo(path or os.path.dirname(
             os.path.realpath(__file__)
         ))
