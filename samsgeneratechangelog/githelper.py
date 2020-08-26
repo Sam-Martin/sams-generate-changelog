@@ -8,14 +8,17 @@ import git
 import json
 from .decorators import DebugOutput
 
+    
 
-class GroupedCommits:
-    """ Commits grouped by an arbitrary group name """
+class FileCommits():
+    """ All commits relating to a single file """
 
-    def __init__(self, group_name, commits=None):
-        self.group_name = group_name
-        self.commits = commits or set()
-
+    def __init__(self, file_path, commits, change_type):
+        change_types = {'A': 'Added', 'M': 'Modified', 'D': 'Deleted'}
+        self.change_type = change_types[change_type]
+        self.file_path=file_path
+        self.commits = commits
+    
     def __getattr__(self, attr):
         """ Try and return any attribute we're
         asked for as a list of that attribute
@@ -26,32 +29,39 @@ class GroupedCommits:
         ]
 
 
-class FileCommits(GroupedCommits):
-    """ All commits relating to a single file """
+class GroupedFiles:
+    """ Files grouped by an arbitrary parameter """
 
-    def __init__(self, file_path, commits):
-        super().__init__(file_path, commits)
-
+    def __init__(self, grouped_by):
+        self.grouped_by = grouped_by
+        self._files = {}
+    
+    def add(self, file):
+        self._files[file.file_path] = self._files.get(file.file_path, [])
+        self._files[file.file_path].append(file)
+    
+    def get(self, file_path):
+        return self._files.get(file_path)
+    
     @property
-    def file_path(self):
-        """" Alias group name as file_path """
-        return self.group_name
-
+    def files(self):
+        return self._files.items()
+    
+    def __len__(self):
+        return len(self.files)
 
 class SimpleCommit:
     """ A single commit and its attributes """
 
-    def __init__(self, raw_commit, file_path, custom_attributes=None):
+    def __init__(self, commit, file_path, custom_attributes=None):
         self.file_path = file_path
-        self.raw_commit = raw_commit
+        self.commit = commit
         self.custom_attributes = custom_attributes or {}
 
     def __getattr__(self, attr):
         if self._get_custom_attribute(attr) is not None:
             return self._get_custom_attribute(attr)
-        if attr not in self.raw_commit:
-            raise AttributeError(attr)
-        return self.raw_commit[attr]
+        return getattr(self.commit, attr)
 
     def _get_custom_attribute(self, attr):
         if attr not in self.custom_attributes:
@@ -65,6 +75,13 @@ class SimpleCommit:
             re.IGNORECASE
         )
         return match[0] if match else ''
+
+    def __repr__(self):
+        return ''.join([f'<samsgeneratechangelog.githelper.SimpleCommit(',
+                        f'{self.raw_commit}, ',
+                        f'{self.file_path}, ',
+                        f'{self.custom_attributes})'
+                        ])
 
 
 class GitHelper:
@@ -82,7 +99,6 @@ class GitHelper:
         self.new_version = new_commit
         self.custom_attributes = custom_attributes
 
-    
     @property
     @DebugOutput
     def new_files(self):
@@ -101,12 +117,23 @@ class GitHelper:
         """ Returns a list of deleted files """
         return list(self.get_files_of_type('D'))
 
+    @property
+    @DebugOutput
+    def all_commits_by_file(self):
+        """ Returns a list of all commits by file """
+        result = []
+        result.extend(self.new_files)
+        result.extend(self.modified_files)
+        result.extend(self.deleted_files)
+        return result
+
     def get_files_of_type(self, change_type):
         """ Yield commits pertaining to files of type change_type """
         for diff in self.get_diff(change_type):
             yield FileCommits(
                 file_path=diff.b_path,
-                commits=self.get_file_commits(diff.b_path)
+                commits=self.get_file_commits(diff.b_path),
+                change_type=change_type
             )
 
     def get_diff(self, change_type):
@@ -133,7 +160,11 @@ class GitHelper:
         valid_commit_json = f'[{raw_log_output[0:-1]}]'
         try:
             return [
-                SimpleCommit(commit, file_path, self.custom_attributes)
+                SimpleCommit(
+                    self.get_commit(commit['commit']), 
+                    file_path, 
+                    self.custom_attributes
+                )
                 for commit in json.loads(valid_commit_json)
             ]
 
@@ -141,24 +172,15 @@ class GitHelper:
             logging.error(f'json.decoder.JSONDecodeError: {valid_commit_json}')
             raise ex
 
+    @DebugOutput
     def group_commits(self, pattern, file_list, group_by='file_path'):
         """ Group commits based on the first match when the pattern is applied to the property of
         the commit specified by group_by (defaults to file_path) """
         groups = {}
+        group = GroupedFiles(group_by)
         for file in file_list:
-            for commit in file.commits:
-                group_value = getattr(commit, group_by)
-                group_name = self.get_first_regex_match(pattern, group_value)
-                if not group_name:
-                    continue
-                groups[group_name] = groups.get(group_name, {})
-                groups[group_name][group_value] = groups[group_name].get(
-                    group_value,
-                    GroupedCommits(group_value)
-                )
-                groups[group_name][group_value].commits.update(
-                    set(file.commits))
-        return groups
+            group.add(file)
+        return group
 
     @staticmethod
     def get_first_regex_match(pattern, string):

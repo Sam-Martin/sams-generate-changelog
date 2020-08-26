@@ -47,9 +47,11 @@ class GenerateChangelog:
         return self._get_markdown_template().render(
             new_version=self.new_version,
             old_version=self.old_version,
-            new_files=self.git_helper.new_files,
-            modified_files=self.git_helper.modified_files,
-            deleted_files=self.git_helper.deleted_files,
+            groups=self.git_helper.group_commits(
+                file_list=self.git_helper.all_commits_by_file, 
+                group_by=self.group_by,
+                pattern=self.group_pattern
+            )
         )
 
     def _get_markdown_template(self):

@@ -2,18 +2,30 @@
 
 ## New Files
 
-{%- for file in new_files %}
- - {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
+{%- for group_name, files in groups.files %}
+{%- for file in files  %}
+{%- if file.change_type == 'Added' %}
+- {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
+{%- endif %}
+{%- endfor%}
 {%- endfor%}
 
 # Modified Files
+{%- for group_name, files in groups.files %}
+{%- for file in files  %}
+{%- if file.change_type == 'Modified' %}
 
-{%- for file in modified_files %}
- - {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
-{%- endfor%}
+- {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
 
 # Deleted Files
-
-{%- for file in deleted_files %}
- - {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
+{%- for group_name, files in groups.files %}
+{%- for file in files  %}
+{%- if file.change_type == 'Deleted' %}
+- {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
+{%- endif %}
 {%- endfor%}
+{%- endfor%}
+

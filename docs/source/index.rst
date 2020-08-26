@@ -6,5 +6,6 @@ Sam's Generate Changelog
    :caption: Contents:
    
    examples
-   reference
+   cmdline-reference
+   class-reference
 
