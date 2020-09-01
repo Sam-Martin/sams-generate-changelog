@@ -1,0 +1,15 @@
+# {{new_version}}
+{%- for author, files in groups %}
+
+## {{author}}'s Files
+{% for type_group in files | groupby('friendly_change_type') %}
+
+### {{type_group.grouper}} 
+{% for file_group in type_group.list | groupby('file_path') %}
+{%- with %}
+{%- set last_commit = file_group.list | sort(attribute='committed_date') | last %}
+ - {{file_group.grouper}} - {{last_commit.committed_date}}
+{%- endwith %}
+{%- endfor %}    
+{%- endfor %}
+{%- endfor %}
