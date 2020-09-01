@@ -1,31 +1,9 @@
 # {{new_version}}
-
-## New Files
-
-{%- for group_name, files in groups.files %}
-{%- for file in files  %}
-{%- if file.change_type == 'Added' %}
-- {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
-{%- endif %}
-{%- endfor%}
-{%- endfor%}
-
-# Modified Files
-{%- for group_name, files in groups.files %}
-{%- for file in files  %}
-{%- if file.change_type == 'Modified' %}
-
-- {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
-{%- endif %}
+{%- for change_type, files in groups %}
+# {{change_type}} Files
+{% for file_path, file_commits in files.items()%}
+{% for commit in file_commits %}
+    {{file_path}} - {{commit.author}} - {{commit.friendly_change_type}}
+{%- endfor %}    
+{%- endfor %}    
 {%- endfor %}
-{%- endfor %}
-
-# Deleted Files
-{%- for group_name, files in groups.files %}
-{%- for file in files  %}
-{%- if file.change_type == 'Deleted' %}
-- {{file.file_path}} - {{file.author | map(attribute='name') | unique | join(', ')}}
-{%- endif %}
-{%- endfor%}
-{%- endfor%}
-

@@ -27,7 +27,7 @@ class GenerateChangelog:
 
     def __init__(self,
                  old_version, new_version, git_path='.', custom_attributes=None,
-                 template_file=None, group_by='file_path', group_pattern='(.*)'):
+                 template_file=None, group_by='friendly_change_type', group_pattern='(.*)'):
         self.old_version = old_version
         self.new_version = new_version
         self.git_path = git_path
@@ -48,7 +48,7 @@ class GenerateChangelog:
             new_version=self.new_version,
             old_version=self.old_version,
             groups=self.git_helper.group_commits(
-                file_list=self.git_helper.all_commits_by_file, 
+                file_list=self.git_helper.commit_log(self.old_version, self.new_version), 
                 group_by=self.group_by,
                 pattern=self.group_pattern
             )
