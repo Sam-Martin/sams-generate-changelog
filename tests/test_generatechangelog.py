@@ -32,7 +32,8 @@ class TestGenerateChangelog(unittest.TestCase):
         result = generate_changelog.render_markdown()
 
         with open(f'{TEST_FOLDER}/fixtures/basic_result.md') as reader:
-            assert result == ''
+            print(result)
+            assert result == reader.read()
 
 
 if __name__ == '__main__':
