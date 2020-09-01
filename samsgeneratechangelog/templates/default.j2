@@ -1,9 +1,7 @@
 # {{new_version}}
 {%- for change_type, files in groups %}
 # {{change_type}} Files
-{% for file_path, file_commits in files.items()%}
-{% for commit in file_commits %}
-    {{file_path}} - {{commit.author}} - {{commit.friendly_change_type}}
-{%- endfor %}    
+{% for file in files %}
+    {{file.file_path}} - {{file.commit.author}} - {{file.friendly_change_type}}
 {%- endfor %}    
 {%- endfor %}
