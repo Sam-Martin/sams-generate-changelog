@@ -37,7 +37,7 @@ class FileCommit():
         self.commit = commit
         self.file_path = file_path
         self.change_type = change_type
-        self.custom_attributes = custom_attributes
+        self._generate_custom_attributes(custom_attributes or {})
         self.friendly_change_type = change_types.get(
             change_type,
             'Unknown change type'
@@ -59,63 +59,23 @@ class FileCommit():
     def __getattr__(self, attr):
         """ Return the value from the commit object if the attribute
         was one of FileCommit's directly """
-        if self._get_custom_attribute(attr) is not None:
-            return self._get_custom_attribute(attr)
         return getattr(self.commit, attr)
 
-    def _get_custom_attribute(self, attr):
-        if not self.custom_attributes or attr not in self.custom_attributes:
-            return None
-        attribute_spec = self.custom_attribute[attr]
-        logging.debug(f"Getting custom attribute {attr} from commit"
-                      f"using {attribute_spec['pattern']} against {attribute_spec['derived_from']}")
-        match = re.search(
-            attribute_spec['pattern'],
-            getattr(self.commit, attribute_spec['derived_from']),
-            re.IGNORECASE
-        )
-        return match[0] if match else ''
+    def _generate_custom_attributes(self, custom_attributes):
+        for attr, attribute_spec in custom_attributes.items():
+            logging.debug(f"Getting custom attribute {attr} from commit"
+                        f"using {attribute_spec['pattern']} against {attribute_spec['derived_from']}")
+            derived_from = getattr(self, attribute_spec['derived_from'])
+            derived_from = derived_from or getattr(self.commit, attribute_spec['derived_from'])
+            match = re.search(
+                attribute_spec['pattern'],
+                derived_from,
+                re.IGNORECASE
+            )
+            setattr(self, attr, match[0] if match else '')
 
     def __repr__(self):
         return f"FileCommit({self.commit}, {self.file_path}, {self.change_type})"
-
-
-class GroupedFiles:
-    """ Files grouped by an arbitrary parameter
-
-    TODO:
-        See if we can augment/replace with https://docs.python.org/3/library/itertools.html#itertools.groupby
-    """
-
-    def __init__(self, grouped_by):
-        logging.debug(f'Grouping files by: {grouped_by}')
-        self.grouped_by = grouped_by
-        self._groups = {}
-
-    def add(self, file):
-        group_name = getattr(file, self.grouped_by)
-        self._ensure_file_path(group_name, file.file_path)
-        self._groups[group_name][file.file_path].append(file)
-
-    def _ensure_file_path(self, group_name, file_path):
-        self._groups[group_name] = self._groups.get(group_name, {})
-        self._groups[group_name][file_path] = self._groups[group_name].get(
-            file_path,
-            []
-        )
-
-    @property
-    def groups(self):
-        for group_name, files in self._groups.items():
-            file_commits = [
-                file_commit
-                for file_commit_list in files.values()
-                for file_commit in file_commit_list
-            ]
-            yield group_name, file_commits
-
-    def __len__(self):
-        return len(self.groups)
 
 
 class GitHelper:
@@ -157,11 +117,3 @@ class GitHelper:
                     self.repo,
                     self.custom_attributes
                 )
-
-    def group_commits(self, pattern, file_list, group_by):
-        """ Group commits based on the first match when the pattern is applied to the property of
-        the commit specified by group_by """
-        group = GroupedFiles(group_by)
-        for file in file_list:
-            group.add(file)
-        return group.groups

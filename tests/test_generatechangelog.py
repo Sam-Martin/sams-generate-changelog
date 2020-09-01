@@ -38,7 +38,7 @@ class TestGenerateChangelog(unittest.TestCase):
 
     def test_render_markdown_author_template(self):
         generate_changelog = GenerateChangelog(
-            template_name='author_all_commits', group_by='author', **self.default_args)
+            template_name='author_all_commits', **self.default_args)
 
         result = generate_changelog.render_markdown()
 
@@ -48,7 +48,7 @@ class TestGenerateChangelog(unittest.TestCase):
 
     def test_render_markdown_author_by_change_type_template(self):
         generate_changelog = GenerateChangelog(
-            template_name='author_by_change_type', group_by='author', **self.default_args
+            template_name='author_by_change_type', **self.default_args
         )
 
         result = generate_changelog.render_markdown()
@@ -57,6 +57,20 @@ class TestGenerateChangelog(unittest.TestCase):
             print(result)
             assert result == reader.read()
 
+    def test_render_markdown_root_folder_all_commits_template(self):
+        generate_changelog = GenerateChangelog(
+            template_name='root_folder_all_commits',
+            custom_attributes={
+                'root_folder': {'derived_from': 'file_path', 'pattern': r'^([^/])+/|'}
+            },
+            **self.default_args
+        )
+
+        result = generate_changelog.render_markdown()
+
+        with open(f'{TEST_FOLDER}/fixtures/root_folder_all_commits_template.md') as reader:
+            print(result)
+            assert result == reader.read()
 
 if __name__ == '__main__':
     pytest.main([os.path.realpath(__file__)])

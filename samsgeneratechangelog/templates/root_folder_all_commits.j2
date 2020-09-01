@@ -1,0 +1,8 @@
+# {{new_version}}
+{%- for root_folder, root_folder_files in file_commits | groupby('root_folder') | sort(attribute='grouper')  %}
+
+## {{root_folder}} Files
+{% for file_commit in root_folder_files | sort(attribute='file_path') %}
+ - {{file_commit.file_path}} - {{file_commit.hexsha_short}} - {{file_commit.committed_date}} - {{file_commit.author}}
+{%- endfor %}    
+{%- endfor %}

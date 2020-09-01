@@ -1,50 +1,5 @@
 # ac77514f027554af76506833825d418e5072a866
 
-## Modified Files
-
- - samsgeneratechangelog/githelper.py - ac77514 - 2020-09-01 17:09:48 - Sam Martin
- - samsgeneratechangelog/githelper.py - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
- - samsgeneratechangelog/githelper.py - bcc367c - 2020-09-01 15:11:34 - Sam Martin
- - samsgeneratechangelog/githelper.py - df23c1b - 2020-09-01 14:54:08 - Sam Martin
- - samsgeneratechangelog/githelper.py - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - samsgeneratechangelog/githelper.py - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
- - samsgeneratechangelog/githelper.py - 30265ac - 2020-08-24 19:36:52 - Sam Martin
- - samsgeneratechangelog/config.py - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
- - samsgeneratechangelog/config.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
- - samsgeneratechangelog/config.py - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
- - samsgeneratechangelog/config.py - 30265ac - 2020-08-24 19:36:52 - Sam Martin
- - samsgeneratechangelog/generatechangelog.py - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
- - samsgeneratechangelog/generatechangelog.py - df23c1b - 2020-09-01 14:54:08 - Sam Martin
- - samsgeneratechangelog/generatechangelog.py - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - samsgeneratechangelog/generatechangelog.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
- - samsgeneratechangelog/generatechangelog.py - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
- - samsgeneratechangelog/generatechangelog.py - 30265ac - 2020-08-24 19:36:52 - Sam Martin
- - tests/test_generatechangelog.py - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
- - tests/test_generatechangelog.py - f64587a - 2020-09-01 15:14:30 - Sam Martin
- - tests/test_generatechangelog.py - df23c1b - 2020-09-01 14:54:08 - Sam Martin
- - tests/test_generatechangelog.py - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - tests/test_generatechangelog.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
- - samsgeneratechangelog/templates/default.j2 - f64587a - 2020-09-01 15:14:30 - Sam Martin
- - samsgeneratechangelog/templates/default.j2 - bcc367c - 2020-09-01 15:11:34 - Sam Martin
- - samsgeneratechangelog/templates/default.j2 - df23c1b - 2020-09-01 14:54:08 - Sam Martin
- - samsgeneratechangelog/templates/default.j2 - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - tests/fixtures/basic_result.md - f64587a - 2020-09-01 15:14:30 - Sam Martin
- - tests/fixtures/basic_result.md - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - samsgeneratechangelog/__init__.py - df23c1b - 2020-09-01 14:54:08 - Sam Martin
- - samsgeneratechangelog/__init__.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
- - docs/Makefile - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - docs/source/cmdline-reference.rst - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - docs/source/index.rst - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - samsgeneratechangelog/decorators.py - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
- - docs/source/conf.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
- - docs/source/examples.rst - bac10be - 2020-08-24 21:43:10 - Sam Martin
- - docs/source/reference.rst - bac10be - 2020-08-24 21:43:10 - Sam Martin
- - samsgeneratechangelog/__main__.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
- - samsgeneratechangelog/__main__.py - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
- - .gitignore - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
- - .gitignore - 30265ac - 2020-08-24 19:36:52 - Sam Martin
- - setup.py - 30265ac - 2020-08-24 19:36:52 - Sam Martin
-
 ## Added Files
 
  - samsgeneratechangelog/templates/author.j2 - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
@@ -75,6 +30,51 @@
  - samsgeneratechangelog/__pycache__/decorators.cpython-37.pyc - 30265ac - 2020-08-24 19:36:52 - Sam Martin
  - samsgeneratechangelog/__pycache__/generatechangelog.cpython-37.pyc - 30265ac - 2020-08-24 19:36:52 - Sam Martin
  - samsgeneratechangelog/__pycache__/githelper.cpython-37.pyc - 30265ac - 2020-08-24 19:36:52 - Sam Martin
+
+## Modified Files
+
+ - samsgeneratechangelog/githelper.py - ac77514 - 2020-09-01 17:09:48 - Sam Martin
+ - samsgeneratechangelog/config.py - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
+ - samsgeneratechangelog/generatechangelog.py - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
+ - samsgeneratechangelog/githelper.py - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
+ - tests/test_generatechangelog.py - 2f4dbc5 - 2020-09-01 17:08:02 - Sam Martin
+ - samsgeneratechangelog/templates/default.j2 - f64587a - 2020-09-01 15:14:30 - Sam Martin
+ - tests/fixtures/basic_result.md - f64587a - 2020-09-01 15:14:30 - Sam Martin
+ - tests/test_generatechangelog.py - f64587a - 2020-09-01 15:14:30 - Sam Martin
+ - samsgeneratechangelog/githelper.py - bcc367c - 2020-09-01 15:11:34 - Sam Martin
+ - samsgeneratechangelog/templates/default.j2 - bcc367c - 2020-09-01 15:11:34 - Sam Martin
+ - samsgeneratechangelog/__init__.py - df23c1b - 2020-09-01 14:54:08 - Sam Martin
+ - samsgeneratechangelog/generatechangelog.py - df23c1b - 2020-09-01 14:54:08 - Sam Martin
+ - samsgeneratechangelog/githelper.py - df23c1b - 2020-09-01 14:54:08 - Sam Martin
+ - samsgeneratechangelog/templates/default.j2 - df23c1b - 2020-09-01 14:54:08 - Sam Martin
+ - tests/test_generatechangelog.py - df23c1b - 2020-09-01 14:54:08 - Sam Martin
+ - docs/Makefile - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - docs/source/cmdline-reference.rst - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - docs/source/index.rst - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - samsgeneratechangelog/decorators.py - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - samsgeneratechangelog/generatechangelog.py - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - samsgeneratechangelog/githelper.py - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - samsgeneratechangelog/templates/default.j2 - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - tests/fixtures/basic_result.md - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - tests/test_generatechangelog.py - a6ffd63 - 2020-08-26 18:53:19 - Sam Martin
+ - docs/source/conf.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
+ - docs/source/examples.rst - bac10be - 2020-08-24 21:43:10 - Sam Martin
+ - docs/source/reference.rst - bac10be - 2020-08-24 21:43:10 - Sam Martin
+ - samsgeneratechangelog/__init__.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
+ - samsgeneratechangelog/__main__.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
+ - samsgeneratechangelog/config.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
+ - samsgeneratechangelog/generatechangelog.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
+ - tests/test_generatechangelog.py - bac10be - 2020-08-24 21:43:10 - Sam Martin
+ - .gitignore - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
+ - samsgeneratechangelog/__main__.py - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
+ - samsgeneratechangelog/config.py - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
+ - samsgeneratechangelog/generatechangelog.py - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
+ - samsgeneratechangelog/githelper.py - 4afb66e - 2020-08-24 20:25:39 - Sam Martin
+ - .gitignore - 30265ac - 2020-08-24 19:36:52 - Sam Martin
+ - samsgeneratechangelog/config.py - 30265ac - 2020-08-24 19:36:52 - Sam Martin
+ - samsgeneratechangelog/generatechangelog.py - 30265ac - 2020-08-24 19:36:52 - Sam Martin
+ - samsgeneratechangelog/githelper.py - 30265ac - 2020-08-24 19:36:52 - Sam Martin
+ - setup.py - 30265ac - 2020-08-24 19:36:52 - Sam Martin
 
 ## Renamed Files
 
