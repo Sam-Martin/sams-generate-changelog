@@ -1,0 +1,8 @@
+# {{new_version}}
+{%- for change_type, files in groups %}
+
+## {{change_type}} Files
+{% for file_commit in files %}
+ - {{file_commit.file_path}} - {{file_commit.hexsha_short}} - {{file_commit.committed_date.strftime('%Y-%m-%dT%H:%M')}} - {{file_commit.author}}
+{%- endfor %}    
+{%- endfor %}

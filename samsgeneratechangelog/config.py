@@ -56,8 +56,15 @@ ARG_PARSER.add(
 ARG_PARSER.add(
     '--template-file',
     required=False,
-    default=get_module_template_path('default'),
+    default=None,
     help='Jinja2 template file for changelog output'
+)
+ARG_PARSER.add(
+    '--template-name',
+    required=False,
+    default='default',
+    help='Name of a bundled Jinja2 template for changelog output',
+    choices=['default', 'change_type', 'author',],
 )
 ARG_PARSER.add(
     '--log-level',

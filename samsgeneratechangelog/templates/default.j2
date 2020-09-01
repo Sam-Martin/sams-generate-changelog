@@ -1,8 +1,0 @@
-# {{new_version}}
-{%- for change_type, files in groups %}
-
-## {{change_type}} Files
-{% for file in files %}
- - {{file.file_path}} - {{file.commit.author}}
-{%- endfor %}    
-{%- endfor %}

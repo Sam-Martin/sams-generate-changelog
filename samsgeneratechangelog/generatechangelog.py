@@ -27,12 +27,13 @@ class GenerateChangelog:
 
     def __init__(self,
                  old_version, new_version, git_path='.', custom_attributes=None,
-                 template_file=None, group_by='friendly_change_type', group_pattern='(.*)'):
+                 template_file=None, group_by='friendly_change_type', group_pattern='(.*)',
+                 template_name='default'):
         self.old_version = old_version
         self.new_version = new_version
         self.git_path = git_path
         self.custom_attributes = custom_attributes
-        self.template_file = template_file or get_module_template_path('default')
+        self.template_file = template_file or get_module_template_path(template_name)
         self.group_by = group_by
         self.group_pattern = group_pattern
         self.git_helper = GitHelper(

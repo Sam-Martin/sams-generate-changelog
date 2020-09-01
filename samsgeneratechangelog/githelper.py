@@ -4,15 +4,34 @@ A series of helper classes for dealing with pygit
 import os
 import re
 import logging
-import git
+import time
 import json
+import git
+from datetime import datetime
 from .decorators import DebugOutput
 
 
 class FileCommit():
-    """ How a single file was changed by a commit """
+    """ How a single file was changed by a commit 
 
-    def __init__(self, commit, file_path, change_type, custom_attributes=None):
+    Attributes:
+        author
+            Author
+        author_date
+            Date authored
+        committer
+            Committer
+        committed_date
+            Date committed
+        hexsha
+            Long form commit sha
+        hexsha_short
+            Short for commit sha
+        message
+            The commit message
+    """
+
+    def __init__(self, commit, file_path, change_type, repo, custom_attributes=None):
         change_types = {'A': 'Added', 'M': 'Modified',
                         'D': 'Deleted', 'R': 'Renamed', 'T': 'Type Change'}
         self.commit = commit
@@ -20,7 +39,22 @@ class FileCommit():
         self.change_type = change_type
         self.custom_attributes = custom_attributes
         self.friendly_change_type = change_types.get(
-            change_type, 'Unknown change type')
+            change_type, 
+            'Unknown change type'
+        )
+        self._hexsha_short = None
+
+    @property
+    def hexsha_short(self):
+        """ Short version of the commit sha """ 
+        if not self._hexsha_short:
+            self._hexsha_sort = self.repo.git.rev_parse(self.hexsha, short=7)
+        return self._hexsha_sort
+    
+    @property
+    def committed_date(self):
+        """ Get a python datetime object of the committed date """
+        return datetime.fromtimestamp(self.commit.committed_date)
 
     def __getattr__(self, attr):
         """ Return the value from the commit object if the attribute
@@ -47,7 +81,11 @@ class FileCommit():
 
 
 class GroupedFiles:
-    """ Files grouped by an arbitrary parameter """
+    """ Files grouped by an arbitrary parameter 
+    
+    TODO:
+        See if we can augment/replace with https://docs.python.org/3/library/itertools.html#itertools.groupby
+    """
 
     def __init__(self, grouped_by):
         logging.debug(f'Grouping files by: {grouped_by}')
@@ -123,7 +161,13 @@ class GitHelper:
         diff_to_parent = commit.parents[0].diff(commit)
         for change_type in diff_to_parent.change_type:
             for change in diff_to_parent.iter_change_type(change_type):
-                yield FileCommit(commit, change.b_path, change_type, self.custom_attributes)
+                yield FileCommit(
+                    commit,
+                    change.b_path,
+                    change_type,
+                    self.repo,
+                    self.custom_attributes
+                )
 
     def group_commits(self, pattern, file_list, group_by):
         """ Group commits based on the first match when the pattern is applied to the property of

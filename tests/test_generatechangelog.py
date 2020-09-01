@@ -7,7 +7,7 @@ from unittest.mock import patch, MagicMock, Mock
 from .fixtures import MOCK_REPO
 from samsgeneratechangelog import GenerateChangelog
 
-logging.basicConfig(level='DEBUG')
+# logging.basicConfig(level='DEBUG')
 TEST_FOLDER = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -26,16 +26,37 @@ class TestGenerateChangelog(unittest.TestCase):
             # }
         }
 
-    def test_render_markdown(self):
-        generate_changelog = GenerateChangelog(**self.default_args)
+    def test_render_markdown_change_type_template(self):
+        generate_changelog = GenerateChangelog(
+            template_name='change_type', **self.default_args)
 
         result = generate_changelog.render_markdown()
 
-        with open(f'{TEST_FOLDER}/fixtures/basic_result.md') as reader:
+        with open(f'{TEST_FOLDER}/fixtures/change_type_template.md') as reader:
+            print(result)
+            assert result == reader.read()
+
+    def test_render_markdown_author_template(self):
+        generate_changelog = GenerateChangelog(
+            template_name='author', group_by='author', **self.default_args)
+
+        result = generate_changelog.render_markdown()
+
+        with open(f'{TEST_FOLDER}/fixtures/author_template.md') as reader:
+            print(result)
+            assert result == reader.read()
+
+    def test_render_markdown_author_single_file_entry_template(self):
+        generate_changelog = GenerateChangelog(
+            template_name='author_single_file_entry', group_by='author', **self.default_args
+        )
+
+        result = generate_changelog.render_markdown()
+
+        with open(f'{TEST_FOLDER}/fixtures/author_single_file_entry_template.md') as reader:
             print(result)
             assert result == reader.read()
 
 
 if __name__ == '__main__':
-    pytest.main(
-        ['/Users/sammartin/git/samsgeneratechangelog/tests/test_generatechangelog.py'])
+    pytest.main([os.path.realpath(__file__)])
