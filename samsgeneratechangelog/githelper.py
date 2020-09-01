@@ -12,7 +12,7 @@ from .decorators import DebugOutput
 
 
 class FileCommit():
-    """ How a single file was changed by a commit 
+    """ How a single file was changed by a commit
 
     Attributes:
         author
@@ -39,18 +39,18 @@ class FileCommit():
         self.change_type = change_type
         self.custom_attributes = custom_attributes
         self.friendly_change_type = change_types.get(
-            change_type, 
+            change_type,
             'Unknown change type'
         )
         self._hexsha_short = None
 
     @property
     def hexsha_short(self):
-        """ Short version of the commit sha """ 
+        """ Short version of the commit sha """
         if not self._hexsha_short:
             self._hexsha_sort = self.repo.git.rev_parse(self.hexsha, short=7)
         return self._hexsha_sort
-    
+
     @property
     def committed_date(self):
         """ Get a python datetime object of the committed date """
@@ -81,8 +81,8 @@ class FileCommit():
 
 
 class GroupedFiles:
-    """ Files grouped by an arbitrary parameter 
-    
+    """ Files grouped by an arbitrary parameter
+
     TODO:
         See if we can augment/replace with https://docs.python.org/3/library/itertools.html#itertools.groupby
     """
@@ -132,17 +132,6 @@ class GitHelper:
         self.old_version = old_commit
         self.new_version = new_commit
         self.custom_attributes = custom_attributes
-
-    def get_diff_files(self, change_type):
-        """ Get the diff between the old_version and the new_version of type change_type """
-        return self.get_commit(self.old_version).diff(self.new_version).iter_change_type(change_type)
-
-    def get_commit(self, ref):
-        """ Get a single commit from a ref """
-        try:
-            return self.repo.refs[ref].commit
-        except IndexError:
-            return self.repo.commit(ref)
 
     def commit_log(self, rev_a, rev_b):
         """ Get commit objects for every commit between
