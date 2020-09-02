@@ -5,6 +5,8 @@ import logging
 from jinja2 import Template
 from .githelper import GitHelper
 
+MODULE_DIR = os.path.dirname(os.path.realpath(__file__))
+TEMPLATES_DIR = os.path.sep.join([MODULE_DIR, 'templates'])
 
 class GenerateChangelog:
     """
@@ -40,6 +42,15 @@ class GenerateChangelog:
             self.custom_attributes
         )
 
+    @classmethod
+    def get_template_names(cls):
+        """ Returns a list of valid template names """
+        return [
+            os.path.splitext(file_name)[0]
+            for file_name in os.listdir(TEMPLATES_DIR) 
+            if os.path.isfile(os.path.join(TEMPLATES_DIR, file_name))
+        ]
+
     def _get_template_file(self, template_file, template_name):
         if template_file:
             return template_file
@@ -50,10 +61,7 @@ class GenerateChangelog:
 
     @staticmethod
     def _get_module_template_path(template_name):
-        module_dir = os.path.dirname(os.path.realpath(__file__))
-        templates_dir = 'templates'
-        file_path = os.path.sep.join(
-            [module_dir, templates_dir, f'{template_name}.j2'])
+        file_path = os.path.sep.join([TEMPLATES_DIR, f'{template_name}.j2'])
         if not os.path.isfile(file_path):
             raise ValueError(
                 f"{template_name} is not a template bundled with this version of Sam's Generate Changelog")

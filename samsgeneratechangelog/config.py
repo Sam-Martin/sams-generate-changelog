@@ -1,71 +1,76 @@
 import os
+import json
 import configargparse
 from .generatechangelog import GenerateChangelog
 
-
-ARG_PARSER = configargparse.ArgParser(
-    default_config_files=['sgc.conf'],
-    description="Generate change log in Markdown"
-)
-ARG_PARSER.add(
-    'verb',
-    choices=['print'],
-    default='print'
-)
-ARG_PARSER.add(
-    '--config-file',
-    required=False,
-    help='The path to an sgc.conf file'
-)
-ARG_PARSER.add(
-    '--old-version',
-    env_var='SGC_old_version',
-    required=True,
-    help='The git ref (e.g. a tag) of the old version'
-)
-ARG_PARSER.add(
-    '--new-version',
-    env_var='SGC_new_version',
-    required=True,
-    help='The git ref (e.g. a tag) of the new version'
-)
-ARG_PARSER.add(
-    '--git-path',
-    required=False,
-    default='.',
-    env_var='SGC_git_path',
-    help='The path to the root of the git repo'
-)
-ARG_PARSER.add(
-    '--group-pattern',
-    required=False,
-    default=r'(.*)',
-    help='Regex pattern whose matching group will be used to group commits'
-)
-ARG_PARSER.add(
-    '--group-by',
-    required=False,
-    default='file_path',
-    help='Commit attribute to use to group commits'
-)
-ARG_PARSER.add(
-    '--template-file',
-    required=False,
-    default=None,
-    help='Jinja2 template file for changelog output'
-)
-ARG_PARSER.add(
-    '--template-name',
-    required=False,
-    default='default',
-    help='Name of a bundled Jinja2 template for changelog output',
-    choices=['default', 'change_type', 'author',],
-)
-ARG_PARSER.add(
-    '--log-level',
-    required=False,
-    default='WARN',
-    choices=['ERROR', 'WARN', 'INFO', 'DEBUG'],
-    help='Log level'
-)
-
+def arg_parser():
+    parser = configargparse.ArgParser(
+        default_config_files=['sgc.conf'],
+        description="Generate change log in Markdown"
+    )
+    parser.add(
+        'verb',
+        choices=['print'],
+        default='print'
+    )
+    parser.add(
+        '--config-file',
+        required=False,
+        env_var='SGC_config_file',
+        help='The path to an sgc.conf file'
+    )
+    parser.add(
+        '--start-ref',
+        env_var='SGC_start_ref',
+        required=True,
+        help='The commit sha or git ref (tag/head/etc) that the comparison will start from'
+    )
+    parser.add(
+        '--end-ref',
+        env_var='SGC_end_ref',
+        required=True,
+        help='The commit sha or git ref (tag/head/etc) that the comparison will end at'
+    )
+    parser.add(
+        '--header-text',
+        env_var='SGC_header_text',
+        required=True,
+        help='The text that appears in the header of the template'
+    )
+    parser.add(
+        '--git-path',
+        required=False,
+        default='.',
+        env_var='SGC_git_path',
+        help='The path (relative to the cwd or absolute) that contains the `.git` folder'
+    )
+    parser.add(
+        '--template-file',
+        required=False,
+        default=None,
+        help='The path (relative to the cwd or absolute) to a custom jinja2 template file'
+    )
+    parser.add(
+        '--template-name',
+        required=False,
+        default='author_all_commits',
+        env_var='SGC_template_name',
+        help='The name of one of the templates bundled with the SamsGenerateChangelog package',
+        choices=GenerateChangelog.get_template_names(),
+    )
+    parser.add(
+        '--custom-attributes',
+        required=False,
+        env_var='SGC_custom_attributes',
+        help='A JSON dictionary of of custom attributes to make available under each file object in the template',
+        type=json.loads
+    )
+    
+    parser.add(
+        '--log-level',
+        required=False,
+        default='WARN',
+        choices=['ERROR', 'WARN', 'INFO', 'DEBUG'],
+        help='Log level'
+    )
+    return parser

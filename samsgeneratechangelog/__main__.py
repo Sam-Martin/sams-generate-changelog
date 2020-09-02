@@ -1,15 +1,23 @@
 import logging
 from .generatechangelog import GenerateChangelog
-from .config import ARG_PARSER
+from .config import arg_parser
 
 def main():
-    args = ARG_PARSER.parse_args()
+    args = arg_parser().parse_args()
     logging.basicConfig(level=args.log_level.upper())
-    gc = GenerateChangelog(
-        old_version=args.old_version,
-        new_version=args.new_version,
-        git_path=args.git_path
-    )
+    parameters = {
+        param: getattr(args, param)
+        for param in [
+            'start_ref', 
+            'end_ref', 
+            'header_text', 
+            'git_path', 
+            'custom_attributes', 
+            'template_file', 
+            'template_name'
+        ]
+    }
+    gc = GenerateChangelog(**parameters)
     
     if args.verb.lower() == 'print':
         print(gc.render_markdown())
