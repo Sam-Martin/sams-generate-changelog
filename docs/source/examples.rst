@@ -1,20 +1,12 @@
 Examples 
 ==========
 
-Using the cmdline
-^^^^^^^^^^^^^^^^^^^
+.. include:: cmdline-examples.rst
+.. include:: template-examples.rst
+.. include:: custom-attributes-examples.rst
 
-.. code-block :: bash
-    
-    $ gcs print -old-version 0.0.1 --new-version 1.0.0
-    # 1.0.0
 
-    ## New Files
-    - docs/Makefile - Sam Martin
-    
-    # Modified Files
-    - .gitignore - Sam Martin
-    
-    # Deleted Files
-    - samsgeneratechangelog/__pycache__/__init__.cpython-37.pyc - Sam Martin
-    
+Reference
+----------
+
+* `Jinja2 Template Designer Documentation <https://jinja.palletsprojects.com/en/2.11.x/templates/>`_

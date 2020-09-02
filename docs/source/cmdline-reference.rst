@@ -6,6 +6,5 @@ Cmdline Arguments
 
 .. argparse::
    :module: samsgeneratechangelog.config
-   :func: ARG_PARSER
+   :func: arg_parser
    :prog: sgc
-

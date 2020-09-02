@@ -15,18 +15,21 @@ class FileCommit():
     """ A single file changed by a commit
 
     Parameters:
-        commit (Commit): The :class:`git.objects.commit.Commit` that this file was changed in
+        commit (Commit): The :class:`~git.objects.commit.Commit` that this file was changed in
         file_path (str): The path of the file that was changed relative to the root of the repo
         change_type (str): The single character change type
-        repo (Repo): The :class:`git.repo.base.Repo` that the commit is from
+        repo (Repo): The :class:`~git.repo.base.Repo` that the commit is from
         custom_attributes (dict): A dictionary of custom attributes with the attribute name as the key, and subkeys of `pattern` and `derived_from`
 
     Attributes:
-        author (str): Author
+        commit (Commit): The :class:`~git.objects.commit.Commit` object for this commit
+        author (Actor): The :class:`~git.util.Actor` object that authored the commit. Contains :attr:`email` and :attr:`name` attributes
         author_date (datetime): Date authored
         committer (str): Committer
         hexsha (str): Long form commit sha
         message (str): The commit message
+        file_path (str): The path to the file which was changed (relative to the root of the repo)
+        friendly_change_type (str): The type of change that happend to this file.
     """
 
     def __init__(self, commit, file_path, change_type, repo, custom_attributes=None):
@@ -44,14 +47,22 @@ class FileCommit():
 
     @property
     def hexsha_short(self):
-        """ Short version of the commit sha """
+        """ Short version of the commit sha 
+        
+        Returns: 
+            str
+        """
         if not self._hexsha_short:
             self._hexsha_sort = self.repo.git.rev_parse(self.hexsha, short=7)
         return self._hexsha_sort
 
     @property
     def committed_date(self):
-        """ Get a python datetime object of the committed date """
+        """ Get a python datetime object of the committed date 
+        
+        Returns: 
+            datetime
+        """
         return datetime.fromtimestamp(self.commit.committed_date)
 
     def __getattr__(self, attr):

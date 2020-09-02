@@ -1,5 +1,5 @@
 # {{header_text}}
-{%- for author, authors_files in file_commits | groupby('author.name')  %}
+{%- for author, authors_files in file_commits | groupby('author.name') | sort(attribute='grouper') %}
 
 ## {{author}}'s Files
 {% for change_type, change_type_files in authors_files | groupby('friendly_change_type') | sort(attribute='grouper')  %}
