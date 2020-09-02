@@ -7,11 +7,12 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    version='0.0.1',
+    version='0.0.2',
     name='samsgeneratechangelog',
     packages=['samsgeneratechangelog'],
     description='Let Sam generate a changelog for you by grouping commits by file, or commit message, or anything!',
-    long_description=
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Sam Martin', 
     author_email='samjackmartin+sams_generate_changelog@gmail.com', 
     url='https://github.com/Sam-Martin/sams-generate-changelog',
