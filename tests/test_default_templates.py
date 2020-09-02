@@ -101,6 +101,43 @@ class TestGenerateChangelog(unittest.TestCase):
         with open(f'{TEST_FOLDER}/fixtures/jira_id_by_change_type_template.md') as reader:
             print(result)
             assert result == reader.read()
+        
+    def test_render_markdown_jira_id_by_change_type_template_throws_without_custom_attribute(self):
+
+        with self.assertRaises(ValueError) as cm:
+             GenerateChangelog(
+                template_name='jira_id_by_change_type',
+                ** self.default_args
+            )
+        assert str(cm.exception) == 'jira_id_by_change_type requires a custom attribute specification to be provided, please consult the documentation'
+    
+    def test_render_markdown_jira_id_all_commits_template_throws_without_custom_attribute(self):
+
+        with self.assertRaises(ValueError) as cm:
+             GenerateChangelog(
+                template_name='jira_id_all_commits',
+                ** self.default_args
+            )
+        assert str(cm.exception) == 'jira_id_all_commits requires a custom attribute specification to be provided, please consult the documentation'
+    
+    def test_render_markdown_root_folder_all_commits_template_throws_without_custom_attribute(self):
+
+        with self.assertRaises(ValueError) as cm:
+             GenerateChangelog(
+                template_name='root_folder_all_commits',
+                ** self.default_args
+            )
+        assert str(cm.exception) == 'root_folder_all_commits requires a custom attribute specification to be provided, please consult the documentation'
+    
+    def test_render_markdown_throws_with_unrecognised_template_name(self):
+
+        with self.assertRaises(ValueError) as cm:
+             GenerateChangelog(
+                template_name='unrecognised_template',
+                ** self.default_args
+            )
+        assert str(cm.exception) == "unrecognised_template is not a template bundled with this version of Sam's Generate Changelog"
+        
 
 if __name__ == '__main__':
     pytest.main([os.path.realpath(__file__)])

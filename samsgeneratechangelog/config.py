@@ -1,11 +1,6 @@
 import os
 import configargparse
-
-
-def get_module_template_path(template_name):
-    module_dir = os.path.dirname(os.path.realpath(__file__))
-    templates_dir = 'templates'
-    return os.path.sep.join([module_dir, templates_dir, f'{template_name}.j2'])
+from .generatechangelog import GenerateChangelog
 
 
 ARG_PARSER = configargparse.ArgParser(

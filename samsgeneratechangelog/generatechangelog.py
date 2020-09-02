@@ -4,7 +4,6 @@ from datetime import date
 import logging
 from jinja2 import Template
 from .githelper import GitHelper
-from .config import get_module_template_path
 
 
 class GenerateChangelog:
@@ -21,8 +20,9 @@ class GenerateChangelog:
         custom_attributes (dict): A dictionary of of custom attributes to make available under each file object in the template
     """
     templates_requiring_custom_attributes = [
-        'jira_id',
-        'root_folder_for_all_commits'
+        'jira_id_all_commits',
+        'jira_id_by_change_type',
+        'root_folder_all_commits'
     ]
 
     def __init__(self, start_ref, end_ref, header_text, git_path='.',
@@ -33,7 +33,8 @@ class GenerateChangelog:
         self.header_text = header_text
         self.git_path = git_path
         self.custom_attributes = custom_attributes
-        self.template_file = self._get_template_file(template_file, template_name)
+        self.template_file = self._get_template_file(
+            template_file, template_name)
         self.git_helper = GitHelper(
             self.git_path,
             self.custom_attributes
@@ -43,8 +44,20 @@ class GenerateChangelog:
         if template_file:
             return template_file
         if template_name in self.templates_requiring_custom_attributes and not self.custom_attributes:
-            raise ValueError(f'{template_name} requires a custom attribute specification to be provided, please consult the documentation')
-        return get_module_template_path(template_name)
+            raise ValueError(
+                f'{template_name} requires a custom attribute specification to be provided, please consult the documentation')
+        return self._get_module_template_path(template_name)
+
+    @staticmethod
+    def _get_module_template_path(template_name):
+        module_dir = os.path.dirname(os.path.realpath(__file__))
+        templates_dir = 'templates'
+        file_path = os.path.sep.join(
+            [module_dir, templates_dir, f'{template_name}.j2'])
+        if not os.path.isfile(file_path):
+            raise ValueError(
+                f"{template_name} is not a template bundled with this version of Sam's Generate Changelog")
+        return file_path
 
     def render_markdown(self):
         """ Return the rendered markdown provided by the template """
