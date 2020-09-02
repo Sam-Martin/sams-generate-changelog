@@ -5,8 +5,8 @@
 
 ### Added
 
- - docs/Makefile - 2020-08-24 19:36:52
  - docs/make.bat - 2020-08-24 19:36:52
+ - docs/Makefile - 2020-08-24 19:36:52
  - docs/source/class-reference.rst - 2020-08-26 18:53:19
  - docs/source/conf.py - 2020-08-24 19:36:52
  - docs/source/examples.rst - 2020-08-24 19:36:52

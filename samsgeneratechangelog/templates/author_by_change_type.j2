@@ -2,10 +2,10 @@
 {%- for author, authors_files in file_commits | groupby('author.name')  %}
 
 ## {{author}}'s Files
-{% for change_type, change_type_files in authors_files | groupby('friendly_change_type') %}
+{% for change_type, change_type_files in authors_files | groupby('friendly_change_type') | sort(attribute='grouper')  %}
 
 ### {{change_type}}
-{% for file_path, file_path_files in change_type_files | groupby('file_path') %}
+{% for file_path, file_path_files in change_type_files | groupby('file_path') | sort(attribute='grouper')   %}
 {%- with %}
 {%- set last_commit = file_path_files | sort(attribute='committed_date') | last %}
  - {{file_path}} - {{last_commit.committed_date}}

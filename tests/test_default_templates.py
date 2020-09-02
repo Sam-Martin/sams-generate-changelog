@@ -4,7 +4,6 @@ import json
 import unittest
 import pytest
 from unittest.mock import patch, MagicMock, Mock
-from .fixtures import MOCK_REPO
 from samsgeneratechangelog import GenerateChangelog
 
 # logging.basicConfig(level='DEBUG')
@@ -19,12 +18,6 @@ class TestGenerateChangelog(unittest.TestCase):
             'end_ref': 'ac77514f027554af76506833825d418e5072a866',
             'header_text': '1.0.0',
             'git_path': '..'
-            # 'custom_attributes': {
-            #     'jira_id': {
-            #         'derived_from': 'message',
-            #         'pattern': r'^\w+-\d+'
-            #     }
-            # }
         }
 
     def test_render_markdown_change_type_all_commits_template(self):
@@ -70,6 +63,42 @@ class TestGenerateChangelog(unittest.TestCase):
         result = generate_changelog.render_markdown()
 
         with open(f'{TEST_FOLDER}/fixtures/root_folder_all_commits_template.md') as reader:
+            print(result)
+            assert result == reader.read()
+
+    def test_render_markdown_jira_id_all_commits_template(self):
+        generate_changelog = GenerateChangelog(
+            template_name='jira_id_all_commits',
+            custom_attributes={
+                'jira_id': {
+                    'derived_from': 'message',
+                    'pattern': r'^\w+-\d+'
+                }
+            },
+            ** self.default_args
+        )
+
+        result = generate_changelog.render_markdown()
+
+        with open(f'{TEST_FOLDER}/fixtures/jira_id_all_commits_template.md') as reader:
+            print(result)
+            assert result == reader.read()
+
+    def test_render_markdown_jira_id_by_change_type_template(self):
+        generate_changelog = GenerateChangelog(
+            template_name='jira_id_by_change_type',
+            custom_attributes={
+                'jira_id': {
+                    'derived_from': 'message',
+                    'pattern': r'^\w+-\d+'
+                }
+            },
+            ** self.default_args
+        )
+
+        result = generate_changelog.render_markdown()
+
+        with open(f'{TEST_FOLDER}/fixtures/jira_id_by_change_type_template.md') as reader:
             print(result)
             assert result == reader.read()
 
