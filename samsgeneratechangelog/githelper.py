@@ -12,7 +12,7 @@ from .decorators import DebugOutput
 
 
 class FileCommit():
-    """ How a single file was changed by a commit
+    """ A single file changed by a commit
 
     Attributes:
         author

@@ -1,9 +1,9 @@
-# ac77514f027554af76506833825d418e5072a866
+# 1.0.0
 
 ## Sam Martin's Files
 
 
-### Added 
+### Added
 
  - docs/Makefile - 2020-08-24 19:36:52
  - docs/make.bat - 2020-08-24 19:36:52
@@ -23,7 +23,7 @@
  - tests/fixtures/author_template.md - 2020-09-01 17:08:02
  - tests/fixtures/change_type_template.md - 2020-09-01 17:08:02
 
-### Deleted 
+### Deleted
 
  - samsgeneratechangelog/__pycache__/__init__.cpython-37.pyc - 2020-08-24 19:36:52
  - samsgeneratechangelog/__pycache__/config.cpython-37.pyc - 2020-08-24 19:36:52
@@ -34,7 +34,7 @@
  - samsgeneratechangelog/test.py - 2020-08-26 18:53:43
  - tests/fixtures/basic_result.md - 2020-09-01 17:08:02
 
-### Modified 
+### Modified
 
  - .gitignore - 2020-08-24 20:25:39
  - docs/Makefile - 2020-08-26 18:53:19
@@ -54,6 +54,6 @@
  - tests/fixtures/basic_result.md - 2020-09-01 15:14:30
  - tests/test_generatechangelog.py - 2020-09-01 17:08:02
 
-### Renamed 
+### Renamed
 
  - docs/source/cmdline-reference.rst - 2020-08-26 18:53:19
