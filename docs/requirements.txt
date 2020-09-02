@@ -1,1 +1,5 @@
 sphinx-argparse
+sphinx_rtd_theme
+gitpython
+configargparse
+sphinx==3.2.1
