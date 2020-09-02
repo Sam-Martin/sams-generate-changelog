@@ -14,21 +14,19 @@ from .decorators import DebugOutput
 class FileCommit():
     """ A single file changed by a commit
 
+    Parameters:
+        commit (Commit): The :class:`git.objects.commit.Commit` that this file was changed in
+        file_path (str): The path of the file that was changed relative to the root of the repo
+        change_type (str): The single character change type
+        repo (Repo): The :class:`git.repo.base.Repo` that the commit is from
+        custom_attributes (dict): A dictionary of custom attributes with the attribute name as the key, and subkeys of `pattern` and `derived_from`
+
     Attributes:
-        author
-            Author
-        author_date
-            Date authored
-        committer
-            Committer
-        committed_date
-            Date committed
-        hexsha
-            Long form commit sha
-        hexsha_short
-            Short for commit sha
-        message
-            The commit message
+        author (str): Author
+        author_date (datetime): Date authored
+        committer (str): Committer
+        hexsha (str): Long form commit sha
+        message (str): The commit message
     """
 
     def __init__(self, commit, file_path, change_type, repo, custom_attributes=None):
@@ -81,16 +79,19 @@ class FileCommit():
 class GitHelper:
     """
     Helper class to facilitate in diffing and organising commits
+
+    Parameters:
+        path (string): Path to the folder containing the git repo
+        custom_attributes (dict): A dictionary of custom attributes with the attribute name as the key, and subkeys of `pattern` and `derived_from`
+
     """
 
-    def __init__(self, path, old_commit, new_commit, custom_attributes=None):
+    def __init__(self, path, custom_attributes=None):
         logging.debug(f'Using git repo {path}')
         self.repo = git.Repo(path or os.path.dirname(
             os.path.realpath(__file__)
         ))
         self.git = self.repo.git
-        self.old_version = old_commit
-        self.new_version = new_commit
         self.custom_attributes = custom_attributes
 
     def commit_log(self, rev_a, rev_b):
@@ -105,7 +106,7 @@ class GitHelper:
 
     def generate_file_commits_from_commit(self, commit):
         """ Returns a list of FileCommit objects that represent a file changed
-        by the commit, as well as the change type and all other commit metadata """
+        by the commit as well as the change type and all other commit metadata """
         # TODO: Support generating list of files added from first commit (i.e. commit without parents)
         diff_to_parent = commit.parents[0].diff(commit)
         for change_type in diff_to_parent.change_type:

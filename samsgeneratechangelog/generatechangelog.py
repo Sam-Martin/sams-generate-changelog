@@ -11,22 +11,14 @@ class GenerateChangelog:
     """
     Generate a changelog by rendering a simple but flexible CommitFile object using jinja2
 
-    Parameters
-    -----------
-        start_ref: string
-            The commit sha or git ref (tag/head/etc) that the comparison will start from
-        end_ref: string
-            The commit sha or git ref (tag/head/etc) that the comparison will end at
-        header_text: string
-            The text that appears in the header of the template
-        git_path: string
-            The path (relative to the cwd or absolute) that contains the `.git` folder
-        template_file: string
-            The path (relative to the cwd or absolute) to a custom jinja2 template file
-        template_name: string
-            The name of one of the templates bundled with the SamsGenerateChangelog package
-        custom_attributes: dict
-            A dictionary of of custom attributes to make available under each file object in the template
+    Parameters:
+        start_ref (string): The commit sha or git ref (tag/head/etc) that the comparison will start from
+        end_ref (string): The commit sha or git ref (tag/head/etc) that the comparison will end at
+        header_text (string): The text that appears in the header of the template
+        git_path (string): The path (relative to the cwd or absolute) that contains the `.git` folder
+        template_file (string): The path (relative to the cwd or absolute) to a custom jinja2 template file
+        template_name (string): The name of one of the templates bundled with the SamsGenerateChangelog package
+        custom_attributes (dict): A dictionary of of custom attributes to make available under each file object in the template
     """
     templates_requiring_custom_attributes = [
         'jira_id',
@@ -44,8 +36,6 @@ class GenerateChangelog:
         self.template_file = self._get_template_file(template_file, template_name)
         self.git_helper = GitHelper(
             self.git_path,
-            self.start_ref,
-            self.end_ref,
             self.custom_attributes
         )
 
