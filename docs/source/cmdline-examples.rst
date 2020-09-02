@@ -27,7 +27,7 @@ Command
 
 Outputs
 """""""""""""""
-.. code-block ::
+.. code-block :: none
 
     # 0.0.1
 
@@ -86,7 +86,7 @@ the author and commit date for it.
 Commits for `HEAD~9` to `HEAD~8`
 """"""""""""""""""""""""""""""""""""""""""
 
-.. code-block ::
+.. code-block :: none
 
     ac77514 JIRA-1234 - Cleaned up unused methods
     2f4dbc5 JIRA-1234 - Added additional templates
@@ -95,7 +95,7 @@ Commits for `HEAD~9` to `HEAD~8`
 Contents of `jira_id_by_change_type.j2`
 """""""""""""""""""""""""""""""""""""""
 
-.. code-block ::
+.. code-block :: none
 
     # {{header_text}}
     {%- for jira_id, jira_id_files in file_commits | groupby('jira_id') | sort(attribute='grouper')  %}
@@ -123,7 +123,7 @@ Command
 Outputs
 """"""""
 
-.. code-block ::
+.. code-block :: none
 
     # 0.0.1
 

@@ -43,19 +43,19 @@ This attribute will be produced by applying the pattern `^\\w+-\\d+` against the
 
 The pattern `^\\w+-\\d+` will take a commit message like:
 
-.. code-block ::
+.. code-block :: none
 
     JIRA-1234 - Added additional templates
 
 and return 
 
-.. code-block ::
+.. code-block :: none
 
     JIRA-1234
 
 Meaning that in your template you can do something like:
 
-.. code-block ::
+.. code-block :: none
 
     {%- for file_commit in file_commits %}
     - {{file_commit.jira_id}} - {{file_commit.file_path}} - {{file_commit.hexsha_short}}
@@ -63,6 +63,6 @@ Meaning that in your template you can do something like:
 
 and it will render as
 
-.. code-block ::
+.. code-block :: none
 
     - JIRA-1234 - samsgeneratechangelog/templates/change_type.j2 - 2f4dbc5

@@ -28,7 +28,7 @@ and more importantly, *custom attributes*.
 
 At its most simple, you can loop over all file commits and just print out the detail about it.
 
-.. code-block ::
+.. code-block :: none
 
     {%- for file_commit in file_commits %}
     - {{file_commit.file_path}} - {{file_commit.hexsha_short}} - {{file_commit.author.name}} {{file_commit.author.email}} - {{file_commit.committed_date}} - {{file_commit.friendly_change_type}}
@@ -36,7 +36,7 @@ At its most simple, you can loop over all file commits and just print out the de
 
 This will output something like the following:
 
-.. code-block ::
+.. code-block :: none
 
     - samsgeneratechangelog/templates/author.j2 - 2f4dbc5 - Sam Martin here@there.com - 2020-09-01 17:08:02 - Added
     - samsgeneratechangelog/templates/author_single_file_entry.j2 - 2f4dbc5 - Sam Martin here@there.com - 2020-09-01 17:08:02 - Added
@@ -49,7 +49,7 @@ Grouping file_commits
 ^^^^^^^^^^^^^^^^^^^^^^
 With Jinja2's `groupby` functionality we can group these file commits any way we like.
 
-.. code-block ::
+.. code-block :: none
     
     {%- for author_name, author_file_commits in file_commits | groupby('author.name') | sort(attribute='grouper') %}
 
@@ -67,7 +67,7 @@ Two important things to note:
 
 This will output something like:
 
-.. code-block ::
+.. code-block :: none
 
     ## Sam Martin
     - samsgeneratechangelog/config.py - 2f4dbc5 - Sam Martin here@there.com - 2020-09-01 17:08:02 - Modified
