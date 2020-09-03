@@ -13,6 +13,7 @@ DEFAULT_ARGS = {
     'git_path': os.path.join(TEST_FOLDER, '..')
 }
 
+
 @patch.dict('os.environ', {'TZ': 'UTC'})
 class TestGenerateChangelog(unittest.TestCase):
 

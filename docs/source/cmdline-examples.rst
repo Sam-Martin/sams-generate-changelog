@@ -1,16 +1,34 @@
 Using the cmdline
 ------------------
 
-Default arguments
+Print to screen
 ^^^^^^^^^^^^^^^^^^
 
-The default template is `author_all_commits` which prints out a list of files commited 
+The default template is `author_by_change_type` which prints out a list of files commited grouped by auth and change type
 
 
 .. include:: cmdline_snippets/default-arguments.rst
 
 
 You can see that the file `tests/test_default_templates.py` appears twice, once per commit.
+
+Save to file
+^^^^^^^^^^^^^^^^^^
+
+By adding `--output-file` and `--entry-id` we can write the output to a markdown file.
+
+
+.. include:: cmdline_snippets/default-arguments-save.rst
+
+
+You can see that this adds the Markdown comment syntax with a delimiter at the beginning and end of the
+changelog entry. This is invisible once rendered and ensures that running the same command repeatedly 
+will *replace* the changelog entry rather than keep prepending it repeatedly.
+
+
+.. note :: Note the repetition of `0.0.1` as the `--header-text` and the `--entry-id`. 
+    The entry ID is used as a delimiter to uniquely identify an entry in the file.
+
 
 Included templates
 ^^^^^^^^^^^^^^^^^^^^

@@ -1,6 +1,7 @@
 import os
 from jinja2 import Template
 from .githelper import GitHelper
+from .changelogfilehelper import ChangelogFileHelper
 
 MODULE_DIR = os.path.dirname(os.path.realpath(__file__))
 TEMPLATES_DIR = os.path.sep.join([MODULE_DIR, 'templates'])
@@ -20,7 +21,7 @@ class GenerateChangelog:
         custom_attributes (dict): A dictionary of of custom attributes to make available under each file object
             in the template
     """
-    templates_requiring_custom_attributes = [
+    _templates_requiring_custom_attributes = [
         'jira_id_all_commits',
         'jira_id_by_change_type',
         'root_folder_all_commits'
@@ -28,7 +29,7 @@ class GenerateChangelog:
 
     def __init__(self, start_ref, end_ref, header_text, git_path='.',
                  custom_attributes=None, template_file=None,
-                 template_name='default'):
+                 template_name='author_by_change_type'):
         self.start_ref = start_ref
         self.end_ref = end_ref
         self.header_text = header_text
@@ -53,7 +54,7 @@ class GenerateChangelog:
     def _get_template_file(self, template_file, template_name):
         if template_file:
             return template_file
-        if template_name in self.templates_requiring_custom_attributes and not self.custom_attributes:
+        if template_name in self._templates_requiring_custom_attributes and not self.custom_attributes:
             raise ValueError(
                 f'{template_name} requires a custom attribute specification to be provided,'
                 ' please consult the documentation'
@@ -77,6 +78,13 @@ class GenerateChangelog:
             file_commits=self.git_helper.commit_log(
                 self.start_ref, self.end_ref)
         )
+
+    def render_markdown_to_file(self, file_path, entry_id):
+        """ Render the markdown provided by the template and prepend it to a file
+        if an entry already exists pertaining to the current entry_id it will be overwritten """
+        file_helper = ChangelogFileHelper(file_path=file_path)
+        entry = self.render_markdown()
+        file_helper.write_entry(entry, entry_id)
 
     def _get_markdown_template(self):
         with open(self.template_file) as reader:

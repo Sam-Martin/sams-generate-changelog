@@ -1,3 +1,4 @@
+import sys
 import json
 import configargparse
 from .generatechangelog import GenerateChangelog
@@ -10,7 +11,7 @@ def arg_parser():
     )
     parser.add(
         'verb',
-        choices=['print'],
+        choices=['print', 'save'],
         default='print'
     )
     parser.add(
@@ -53,7 +54,7 @@ def arg_parser():
     parser.add(
         '--template-name',
         required=False,
-        default='author_all_commits',
+        default='author_by_change_type',
         env_var='SGC_template_name',
         help='The name of one of the templates bundled with the SamsGenerateChangelog package',
         choices=GenerateChangelog.get_template_names(),
@@ -64,6 +65,19 @@ def arg_parser():
         env_var='SGC_custom_attributes',
         help='A JSON dictionary of of custom attributes to make available under each file object in the template',
         type=json.loads
+    )
+    parser.add(
+        '--output-file',
+        required='save' in sys.argv,
+        env_var='SGC_output_file',
+        help='The path to a changelog file to update',
+    )
+    parser.add(
+        '--entry-id',
+        required='save' in sys.argv,
+        env_var='SGC_entry_id',
+        help='An ID unique to this changelog entry that can be used to '
+        'update it in future if required (normally the semantic version)',
     )
 
     parser.add(
