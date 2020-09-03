@@ -1,5 +1,6 @@
 import os
 import unittest
+from unittest.mock import patch
 import logging
 import pytest
 from samsgeneratechangelog import GenerateChangelog
@@ -15,6 +16,7 @@ DEFAULT_ARGS = {
 }
 
 
+@patch.dict('os.environ', {'TZ': 'UTC'})
 class TestFileWriting(unittest.TestCase):
 
     def _delete_files(self):
@@ -36,6 +38,7 @@ class TestFileWriting(unittest.TestCase):
         with open(os.path.join(TEST_FOLDER, file_b)) as reader:
             expected_result = reader.read()
 
+        print(result)
         assert result == expected_result
 
     def test_render_markdown_to_new_file(self):
