@@ -24,7 +24,7 @@ Installation
 Usage
 ------------
 
-.. include:: cmdline_snippets/default-arguments.rst
+.. include:: cmdline_snippets/default-arguments-save.rst
 
 
 .. toctree::
