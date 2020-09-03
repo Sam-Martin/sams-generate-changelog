@@ -1,4 +1,6 @@
 import os
+import re
+import logging
 from jinja2 import Template
 from .githelper import GitHelper
 
@@ -20,6 +22,7 @@ class GenerateChangelog:
         custom_attributes (dict): A dictionary of of custom attributes to make available under each file object
             in the template
     """
+    markdown_comment_syntax = '[//]: # ({comment_value})'
     templates_requiring_custom_attributes = [
         'jira_id_all_commits',
         'jira_id_by_change_type',
@@ -28,7 +31,7 @@ class GenerateChangelog:
 
     def __init__(self, start_ref, end_ref, header_text, git_path='.',
                  custom_attributes=None, template_file=None,
-                 template_name='default'):
+                 template_name='author_by_change_type'):
         self.start_ref = start_ref
         self.end_ref = end_ref
         self.header_text = header_text
@@ -77,6 +80,63 @@ class GenerateChangelog:
             file_commits=self.git_helper.commit_log(
                 self.start_ref, self.end_ref)
         )
+
+    def render_markdown_to_file(self, file_path, entry_id):
+        old_contents = self._get_file_contents(file_path)
+        new_entry = self.render_markdown()
+        pattern = self._get_pattern_to_match_existing_changelog_entry(entry_id)
+
+        if re.search(pattern, old_contents):
+            logging.debug(f"Found existing changelog entry for {entry_id} in {file_path}, replacing it.")
+            new_contents = self._replace_existing_entry(
+                repl=new_entry,
+                string=old_contents,
+                entry_id=entry_id
+            )
+        else:
+            new_contents = f'{self._delimit_entry(new_entry, entry_id)}\n\n{old_contents}'
+        self._overwrite_file(file_path, new_contents)
+
+    def _delimit_entry(self, entry, entry_id):
+        entry_delimiter = self._generate_entry_delimiter(entry_id)
+        return f"{entry_delimiter}\n{entry}\n{entry_delimiter}"
+
+    def _replace_existing_entry(self, repl, string, entry_id):
+        """ Replace all text delimited by entry_id delimiter
+        in string with repl
+
+        Parameters:
+            repl (str): The replacement string
+            string (str): The string to search
+            entry_id (str): The ID to use as a delimiter for the changelog entry (usually semantic version number)
+        """
+        pattern = self._get_pattern_to_match_existing_changelog_entry(entry_id)
+        return re.sub(pattern, self._delimit_entry(repl, entry_id), string)
+
+    def _get_pattern_to_match_existing_changelog_entry(self, entry_id):
+        entry_delimiter = self._generate_entry_delimiter(entry_id)
+        escaped_entry_delimiter = re.escape(entry_delimiter)
+        return re.compile(f'{escaped_entry_delimiter}.*?{escaped_entry_delimiter}', re.DOTALL)
+
+    def _generate_entry_delimiter(self, entry_id):
+        """ Generate a markdown comment that will serve as a delimiter
+        that denotes the start and end of a changelog entry """
+        return self.markdown_comment_syntax.format(
+            comment_value=F"SamsGenerateChangelog-{entry_id}"
+        )
+
+    @staticmethod
+    def _get_file_contents(file_path):
+        try:
+            with open(file_path, 'r+') as file:
+                return file.read()
+        except IOError:
+            return ''
+
+    @staticmethod
+    def _overwrite_file(file_path, contents):
+        with open(file_path, 'w') as file:
+            file.write(contents)
 
     def _get_markdown_template(self):
         with open(self.template_file) as reader:
