@@ -15,12 +15,14 @@ DEFAULT_ARGS = [
 CUSTOM_TEMPLATE_ARGS = DEFAULT_ARGS.copy()
 CUSTOM_TEMPLATE_ARGS.extend([
     '--template-file', 'fixtures/custom_template.j2',
-    '--custom-attributes', '{"jira_id": {"derived_from": "message", "pattern": "^\\\w+-\\\d+"}}'
+    '--custom-attributes', '{"jira_id": {"derived_from": "message", "pattern": "^\\\w+-\\\d+"}}'  # noqa: W605
 ])
+
 
 def mock_std_to_string(mock_stdout):
     """ Take a mock_stdout object and return a standardised string that will match our fixtures """
     return ''.join([str(x[0][0]) for x in mock_stdout.write.call_args_list[:-1]])
+
 
 @patch('sys.stdout')
 class TestConfig(unittest.TestCase):
@@ -31,7 +33,7 @@ class TestConfig(unittest.TestCase):
         result = mock_std_to_string(mock_stdout)
         with open(f'{TEST_FOLDER}/fixtures/author_all_commits_template.md') as reader:
             assert result == reader.read()
-    
+
     @patch('argparse._sys.argv', CUSTOM_TEMPLATE_ARGS)
     def test_custom_template(self, mock_stdout):
         main()
@@ -39,6 +41,6 @@ class TestConfig(unittest.TestCase):
         with open(f'{TEST_FOLDER}/fixtures/jira_id_all_commits_template.md') as reader:
             assert result == reader.read()
 
-    
+
 if __name__ == '__main__':
     pytest.main([os.path.realpath(__file__)])

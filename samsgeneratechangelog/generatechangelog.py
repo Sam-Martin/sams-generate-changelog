@@ -1,12 +1,10 @@
 import os
-import re
-from datetime import date
-import logging
 from jinja2 import Template
 from .githelper import GitHelper
 
 MODULE_DIR = os.path.dirname(os.path.realpath(__file__))
 TEMPLATES_DIR = os.path.sep.join([MODULE_DIR, 'templates'])
+
 
 class GenerateChangelog:
     """
@@ -19,7 +17,8 @@ class GenerateChangelog:
         git_path (string): The path (relative to the cwd or absolute) that contains the `.git` folder
         template_file (string): The path (relative to the cwd or absolute) to a custom jinja2 template file
         template_name (string): The name of one of the templates bundled with the SamsGenerateChangelog package
-        custom_attributes (dict): A dictionary of of custom attributes to make available under each file object in the template
+        custom_attributes (dict): A dictionary of of custom attributes to make available under each file object
+            in the template
     """
     templates_requiring_custom_attributes = [
         'jira_id_all_commits',
@@ -47,7 +46,7 @@ class GenerateChangelog:
         """ Returns a list of valid template names """
         return [
             os.path.splitext(file_name)[0]
-            for file_name in os.listdir(TEMPLATES_DIR) 
+            for file_name in os.listdir(TEMPLATES_DIR)
             if os.path.isfile(os.path.join(TEMPLATES_DIR, file_name))
         ]
 
@@ -56,7 +55,9 @@ class GenerateChangelog:
             return template_file
         if template_name in self.templates_requiring_custom_attributes and not self.custom_attributes:
             raise ValueError(
-                f'{template_name} requires a custom attribute specification to be provided, please consult the documentation')
+                f'{template_name} requires a custom attribute specification to be provided,'
+                ' please consult the documentation'
+            )
         return self._get_module_template_path(template_name)
 
     @staticmethod

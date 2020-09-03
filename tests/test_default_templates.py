@@ -103,7 +103,8 @@ class TestGenerateChangelog(unittest.TestCase):
                 template_name='jira_id_by_change_type',
                 ** DEFAULT_ARGS
             )
-        assert str(cm.exception) == 'jira_id_by_change_type requires a custom attribute specification to be provided, please consult the documentation'
+        assert str(cm.exception) == ('jira_id_by_change_type requires a custom attribute specification'
+                                     ' to be provided, please consult the documentation')
 
     def test_render_markdown_jira_id_all_commits_template_throws_without_custom_attribute(self):
 
@@ -112,7 +113,8 @@ class TestGenerateChangelog(unittest.TestCase):
                 template_name='jira_id_all_commits',
                 ** DEFAULT_ARGS
             )
-        assert str(cm.exception) == 'jira_id_all_commits requires a custom attribute specification to be provided, please consult the documentation'
+        assert str(cm.exception) == ('jira_id_all_commits requires a custom attribute specification'
+                                     ' to be provided, please consult the documentation')
 
     def test_render_markdown_root_folder_all_commits_template_throws_without_custom_attribute(self):
 
@@ -121,7 +123,8 @@ class TestGenerateChangelog(unittest.TestCase):
                 template_name='root_folder_all_commits',
                 ** DEFAULT_ARGS
             )
-        assert str(cm.exception) == 'root_folder_all_commits requires a custom attribute specification to be provided, please consult the documentation'
+        assert str(cm.exception) == ('root_folder_all_commits requires a custom attribute specification'
+                                     ' to be provided, please consult the documentation')
 
     def test_render_markdown_throws_with_unrecognised_template_name(self):
 
@@ -130,8 +133,8 @@ class TestGenerateChangelog(unittest.TestCase):
                 template_name='unrecognised_template',
                 ** DEFAULT_ARGS
             )
-        assert str(
-            cm.exception) == "unrecognised_template is not a template bundled with this version of Sam's Generate Changelog"
+        assert str(cm.exception) == ("unrecognised_template is not a template bundled with this "
+                                     "version of Sam's Generate Changelog")
 
 
 if __name__ == '__main__':
