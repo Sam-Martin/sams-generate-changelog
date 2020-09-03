@@ -1,7 +1,7 @@
-import os
 import json
 import configargparse
 from .generatechangelog import GenerateChangelog
+
 
 def arg_parser():
     parser = configargparse.ArgParser(
@@ -65,7 +65,7 @@ def arg_parser():
         help='A JSON dictionary of of custom attributes to make available under each file object in the template',
         type=json.loads
     )
-    
+
     parser.add(
         '--log-level',
         required=False,

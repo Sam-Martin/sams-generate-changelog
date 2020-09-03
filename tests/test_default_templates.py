@@ -1,5 +1,7 @@
 import os
+import time
 import unittest
+from unittest.mock import patch
 import pytest
 from samsgeneratechangelog import GenerateChangelog
 
@@ -8,11 +10,14 @@ DEFAULT_ARGS = {
     'start_ref': '0520826f8057485f8f86f7198149c7b4ea6b6aa2',
     'end_ref': 'ac77514f027554af76506833825d418e5072a866',
     'header_text': '1.0.0',
-    'git_path': '..'
+    'git_path': os.path.join(TEST_FOLDER, '..')
 }
 
-
+@patch.dict('os.environ', {'TZ': 'UTC'})
 class TestGenerateChangelog(unittest.TestCase):
+
+    def setUp(self):
+        time.tzset()
 
     def test_render_markdown_change_type_all_commits_template(self):
         generate_changelog = GenerateChangelog(
@@ -103,7 +108,8 @@ class TestGenerateChangelog(unittest.TestCase):
                 template_name='jira_id_by_change_type',
                 ** DEFAULT_ARGS
             )
-        assert str(cm.exception) == 'jira_id_by_change_type requires a custom attribute specification to be provided, please consult the documentation'
+        assert str(cm.exception) == ('jira_id_by_change_type requires a custom attribute specification'
+                                     ' to be provided, please consult the documentation')
 
     def test_render_markdown_jira_id_all_commits_template_throws_without_custom_attribute(self):
 
@@ -112,7 +118,8 @@ class TestGenerateChangelog(unittest.TestCase):
                 template_name='jira_id_all_commits',
                 ** DEFAULT_ARGS
             )
-        assert str(cm.exception) == 'jira_id_all_commits requires a custom attribute specification to be provided, please consult the documentation'
+        assert str(cm.exception) == ('jira_id_all_commits requires a custom attribute specification'
+                                     ' to be provided, please consult the documentation')
 
     def test_render_markdown_root_folder_all_commits_template_throws_without_custom_attribute(self):
 
@@ -121,7 +128,8 @@ class TestGenerateChangelog(unittest.TestCase):
                 template_name='root_folder_all_commits',
                 ** DEFAULT_ARGS
             )
-        assert str(cm.exception) == 'root_folder_all_commits requires a custom attribute specification to be provided, please consult the documentation'
+        assert str(cm.exception) == ('root_folder_all_commits requires a custom attribute specification'
+                                     ' to be provided, please consult the documentation')
 
     def test_render_markdown_throws_with_unrecognised_template_name(self):
 
@@ -130,8 +138,8 @@ class TestGenerateChangelog(unittest.TestCase):
                 template_name='unrecognised_template',
                 ** DEFAULT_ARGS
             )
-        assert str(
-            cm.exception) == "unrecognised_template is not a template bundled with this version of Sam's Generate Changelog"
+        assert str(cm.exception) == ("unrecognised_template is not a template bundled with this "
+                                     "version of Sam's Generate Changelog")
 
 
 if __name__ == '__main__':

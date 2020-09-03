@@ -4,11 +4,8 @@ A series of helper classes for dealing with pygit
 import os
 import re
 import logging
-import time
-import json
 import git
 from datetime import datetime
-from .decorators import DebugOutput
 
 
 class FileCommit():
@@ -19,11 +16,13 @@ class FileCommit():
         file_path (str): The path of the file that was changed relative to the root of the repo
         change_type (str): The single character change type
         repo (Repo): The :class:`~git.repo.base.Repo` that the commit is from
-        custom_attributes (dict): A dictionary of custom attributes with the attribute name as the key, and subkeys of `pattern` and `derived_from`
+        custom_attributes (dict): A dictionary of custom attributes with the attribute name as the key,
+            and subkeys of `pattern` and `derived_from`
 
     Attributes:
         commit (Commit): The :class:`~git.objects.commit.Commit` object for this commit
-        author (Actor): The :class:`~git.util.Actor` object that authored the commit. Contains :attr:`email` and :attr:`name` attributes
+        author (Actor): The :class:`~git.util.Actor` object that authored the commit.
+            Contains :attr:`email` and :attr:`name` attributes
         author_date (datetime): Date authored
         committer (str): Committer
         hexsha (str): Long form commit sha
@@ -47,9 +46,9 @@ class FileCommit():
 
     @property
     def hexsha_short(self):
-        """ Short version of the commit sha 
-        
-        Returns: 
+        """ Short version of the commit sha
+
+        Returns:
             str
         """
         if not self._hexsha_short:
@@ -58,9 +57,9 @@ class FileCommit():
 
     @property
     def committed_date(self):
-        """ Get a python datetime object of the committed date 
-        
-        Returns: 
+        """ Get a python datetime object of the committed date
+
+        Returns:
             datetime
         """
         return datetime.fromtimestamp(self.commit.committed_date)
@@ -73,7 +72,7 @@ class FileCommit():
     def _generate_custom_attributes(self, custom_attributes):
         for attr, attribute_spec in custom_attributes.items():
             logging.debug(f"Getting custom attribute {attr} from commit"
-                        f"using {attribute_spec['pattern']} against {attribute_spec['derived_from']}")
+                          f"using {attribute_spec['pattern']} against {attribute_spec['derived_from']}")
             derived_from = getattr(self, attribute_spec['derived_from'])
             derived_from = derived_from or getattr(self.commit, attribute_spec['derived_from'])
             match = re.search(
@@ -93,7 +92,8 @@ class GitHelper:
 
     Parameters:
         path (string): Path to the folder containing the git repo
-        custom_attributes (dict): A dictionary of custom attributes with the attribute name as the key, and subkeys of `pattern` and `derived_from`
+        custom_attributes (dict): A dictionary of custom attributes with
+            the attribute name as the key, and subkeys of `pattern` and `derived_from`
 
     """
 
