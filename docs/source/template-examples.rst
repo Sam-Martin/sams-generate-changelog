@@ -18,7 +18,7 @@ The `file_commits` template variable
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The `file_commits` variable in each template contains a list of :class:`~samsgeneratechangelog.FileCommit` objects.
-This object makes you to group your changes by 
+This object makes it easy for you to group your changes by
 :attr:`~samsgeneratechangelog.FileCommit.author_date`,
 :attr:`~samsgeneratechangelog.FileCommit.author`,
 :attr:`~samsgeneratechangelog.FileCommit.file_path`,
