@@ -1,8 +1,8 @@
 import os
 import unittest
 from unittest.mock import patch
-import time
 import pytest
+from .test_helper import TestMixin
 from samsgeneratechangelog.__main__ import main
 
 TEST_FOLDER = os.path.dirname(os.path.realpath(__file__))
@@ -19,6 +19,13 @@ CUSTOM_TEMPLATE_ARGS.extend([
     '--custom-attributes', '{"jira_id": {"derived_from": "message", "pattern": "^\\\w+-\\\d+"}}'  # noqa: W605
 ])
 
+SAVE_FILE_ARGS = DEFAULT_ARGS.copy()
+SAVE_FILE_ARGS[1] = 'save'
+SAVE_FILE_ARGS.extend([
+    '--output-file', os.path.join(TEST_FOLDER, 'CHANGELOG.md'),
+    '--entry-id', '1.0.0'
+])
+
 
 def mock_std_to_string(mock_stdout):
     """ Take a mock_stdout object and return a standardised string that will match our fixtures """
@@ -27,24 +34,29 @@ def mock_std_to_string(mock_stdout):
 
 @patch('sys.stdout')
 @patch.dict('os.environ', {'TZ': 'UTC'})
-class TestConfig(unittest.TestCase):
+class TestConfig(unittest.TestCase, TestMixin):
 
     def setUp(self):
-        time.tzset()
+        self._delete_files()
+
+    def tearDown(self):
+        self._delete_files()
 
     @patch('argparse._sys.argv', DEFAULT_ARGS)
     def test_default_args(self, mock_stdout):
         main()
         result = mock_std_to_string(mock_stdout)
-        with open(f'{TEST_FOLDER}/fixtures/author_all_commits_template.md') as reader:
+        with open(f'{TEST_FOLDER}/fixtures/author_by_change_type_template.md') as reader:
             assert result == reader.read()
 
-    @patch('argparse._sys.argv', CUSTOM_TEMPLATE_ARGS)
+    @patch('argparse._sys.argv', SAVE_FILE_ARGS)
     def test_custom_template(self, mock_stdout):
         main()
-        result = mock_std_to_string(mock_stdout)
-        with open(f'{TEST_FOLDER}/fixtures/jira_id_all_commits_template.md') as reader:
-            assert result == reader.read()
+
+        self.assertFileContentsEqual(
+            file_a='CHANGELOG.md',
+            file_b=os.path.join('fixtures', 'new_file_output.md')
+        )
 
 
 if __name__ == '__main__':

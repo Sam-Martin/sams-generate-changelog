@@ -22,3 +22,9 @@ def main():
 
     if args.verb.lower() == 'print':
         print(gc.render_markdown())
+
+    if args.verb.lower() == 'save':
+        gc.render_markdown_to_file(
+            file_path=args.output_file,
+            entry_id=args.entry_id
+        )

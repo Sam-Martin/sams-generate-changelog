@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch
 import logging
 import pytest
+from .test_helper import TestMixin
 from samsgeneratechangelog import GenerateChangelog
 
 logging.basicConfig(level='DEBUG')
@@ -17,29 +18,13 @@ DEFAULT_ARGS = {
 
 
 @patch.dict('os.environ', {'TZ': 'UTC'})
-class TestFileWriting(unittest.TestCase):
-
-    def _delete_files(self):
-        for file in ['CHANGELOG.md', 'CHANGELOG-existing.md']:
-            try:
-                os.remove(os.path.join(TEST_FOLDER, file))
-            except FileNotFoundError:
-                pass
+class TestFileWriting(unittest.TestCase, TestMixin):
 
     def setUp(self):
         self._delete_files()
 
     def tearDown(self):
         self._delete_files()
-
-    def assertFileContentsEqual(self, file_a, file_b):
-        with open(os.path.join(TEST_FOLDER, file_a)) as reader:
-            result = reader.read()
-        with open(os.path.join(TEST_FOLDER, file_b)) as reader:
-            expected_result = reader.read()
-
-        print(result)
-        assert result == expected_result
 
     def test_render_markdown_to_new_file(self):
         gc = GenerateChangelog(**DEFAULT_ARGS)
