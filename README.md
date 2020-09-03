@@ -34,7 +34,6 @@ $ sgc print --start-ref HEAD~3 --end-ref HEAD --header-text 0.0.1 --output-file 
 ## Outputs to CHANGELOG.md
 
 ```
-# 0.0.1
 
 [//]: # (SamsGenerateChangelog-0.0.1)
  # 0.0.1
