@@ -3,7 +3,7 @@ Command
 
 .. code-block :: bash
     
-    $ sgc print --start-ref HEAD~3 --end-ref HEAD --header-text 0.0.1 --output-file CHANGELOG.md --entry-id 0.0.1
+    $ sgc save --start-ref HEAD~3 --end-ref HEAD --header-text 0.0.1 --output-file CHANGELOG.md --entry-id 0.0.1
 
 
 Outputs to `CHANGELOG.md`
