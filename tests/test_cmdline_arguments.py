@@ -1,6 +1,7 @@
 import os
 import unittest
 from unittest.mock import patch
+import time
 import pytest
 from samsgeneratechangelog.__main__ import main
 
@@ -25,7 +26,11 @@ def mock_std_to_string(mock_stdout):
 
 
 @patch('sys.stdout')
+@patch.dict('os.environ', {'TZ': 'UTC'})
 class TestConfig(unittest.TestCase):
+
+    def setUp(self):
+        time.tzset()
 
     @patch('argparse._sys.argv', DEFAULT_ARGS)
     def test_default_args(self, mock_stdout):

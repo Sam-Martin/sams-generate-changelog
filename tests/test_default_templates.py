@@ -1,5 +1,7 @@
 import os
+import time
 import unittest
+from unittest.mock import patch
 import pytest
 from samsgeneratechangelog import GenerateChangelog
 
@@ -11,8 +13,11 @@ DEFAULT_ARGS = {
     'git_path': os.path.join(TEST_FOLDER, '..')
 }
 
-
+@patch.dict('os.environ', {'TZ': 'UTC'})
 class TestGenerateChangelog(unittest.TestCase):
+
+    def setUp(self):
+        time.tzset()
 
     def test_render_markdown_change_type_all_commits_template(self):
         generate_changelog = GenerateChangelog(
