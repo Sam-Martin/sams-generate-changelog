@@ -30,6 +30,14 @@ class TestFileWriting(unittest.TestCase):
     def tearDown(self):
         self._delete_files()
 
+    def assertFileContentsEqual(self, file_a, file_b):
+        with open(os.path.join(TEST_FOLDER, file_a)) as reader:
+            result = reader.read()
+        with open(os.path.join(TEST_FOLDER, file_b)) as reader:
+            expected_result = reader.read()
+
+        assert result == expected_result
+
     def test_render_markdown_to_new_file(self):
         gc = GenerateChangelog(**DEFAULT_ARGS)
 
@@ -38,12 +46,10 @@ class TestFileWriting(unittest.TestCase):
             entry_id='1.0.0'
         )
 
-        with open(os.path.join(TEST_FOLDER, 'CHANGELOG.md')) as reader:
-            result = reader.read()
-        with open(os.path.join(TEST_FOLDER, 'fixtures', 'new_file_output.md')) as reader:
-            expected_result = reader.read()
-
-        assert result == expected_result
+        self.assertFileContentsEqual(
+            file_a='CHANGELOG.md',
+            file_b=os.path.join('fixtures', 'new_file_output.md')
+        )
 
     def test_render_markdown_to_existing_file(self):
         gc = GenerateChangelog(**DEFAULT_ARGS)
@@ -65,12 +71,10 @@ class TestFileWriting(unittest.TestCase):
             entry_id='1.0.0'
         )
 
-        with open(os.path.join(TEST_FOLDER, 'CHANGELOG-existing.md')) as reader:
-            result = reader.read()
-        with open(os.path.join(TEST_FOLDER, 'fixtures', 'existing_file_overwrite_output.md')) as reader:
-            expected_result = reader.read()
-
-        assert result == expected_result
+        self.assertFileContentsEqual(
+            file_a='CHANGELOG-existing.md',
+            file_b=os.path.join('fixtures', 'existing_file_overwrite_output.md')
+        )
 
 
 if __name__ == '__main__':
