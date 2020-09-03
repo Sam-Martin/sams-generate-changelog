@@ -3,7 +3,7 @@ Sam's Generate Changelog
 
 Yet another changelog generator!
 
-Sam's Changelog Generator focusses on making it easy to group information about your commits by 
+Sam's Generate Changelog focusses on making it easy to group information about your commits by 
 :attr:`~samsgeneratechangelog.FileCommit.author_date`,
 :attr:`~samsgeneratechangelog.FileCommit.author`,
 :attr:`~samsgeneratechangelog.FileCommit.file_path`,
