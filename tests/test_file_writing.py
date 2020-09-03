@@ -30,29 +30,6 @@ class TestFileWriting(unittest.TestCase):
     def tearDown(self):
         self._delete_files()
 
-    def test__replace_existing_entry(self):
-        gc = GenerateChangelog(**DEFAULT_ARGS)
-
-        result = gc._replace_existing_entry(
-            repl='THE_REPLACEMENT',
-            string=f"""
-THIS SHOULD NOT BE REPLACED
-{gc._generate_entry_delimiter(entry_id='ID1')}
-THIS SHOULD BE REPLACED
-{gc._generate_entry_delimiter(entry_id='ID1')}
-THIS SHOULD ALSO NOT BE REPLACED
-            """,
-            entry_id='ID1'
-        )
-
-        assert result == '''
-THIS SHOULD NOT BE REPLACED
-[//]: # (SamsGenerateChangelog-ID1)
-THE_REPLACEMENT
-[//]: # (SamsGenerateChangelog-ID1)
-THIS SHOULD ALSO NOT BE REPLACED
-            '''
-
     def test_render_markdown_to_new_file(self):
         gc = GenerateChangelog(**DEFAULT_ARGS)
 

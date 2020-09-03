@@ -18,7 +18,7 @@ class ChangelogFileHelper:
             new_contents = self._replace_existing_entry(entry, entry_id)
         else:
             new_contents = self._prepend_entry(entry, entry_id)
-        self._overwrite_file(self.file_path, new_contents)
+        self._overwrite_file(new_contents)
 
     def _has_existing_entry(self, entry_id):
         """ Does a changelog entry delimited with this entry_id exist in the file already? """
