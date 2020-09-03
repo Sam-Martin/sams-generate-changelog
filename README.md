@@ -1,6 +1,12 @@
 
 # Sam's Generate Changelog
 
+![PyPI](https://img.shields.io/pypi/v/samsgeneratechangelog?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sam-martin/sams-generate-changelog/Python%20package)
+![Requires.io](https://img.shields.io/requires/github/Sam-Martin/sams-generate-changelog?style=flat-square)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/samsgeneratechangelog?style=flat-square)
+![GitHub](https://img.shields.io/github/license/sam-martin/sams-generate-changelog?style=flat-square)
+
 Yet another changelog generator!
 
 Sam’s Generate Changelog focusses on making it easy to group information about your commits by `author_date`, `author`, `file_path`, `friendly_change_type`, and more importantly, custom attributes!

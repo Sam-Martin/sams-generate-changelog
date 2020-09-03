@@ -1,6 +1,12 @@
 Sam's Generate Changelog
 =================================================
 
+.. image:: https://img.shields.io/pypi/v/samsgeneratechangelog?style=flat-square   :alt: PyPI
+.. image:: https://img.shields.io/github/workflow/status/sam-martin/sams-generate-changelog/Python%20package
+.. image:: https://img.shields.io/requires/github/Sam-Martin/sams-generate-changelog?style=flat-square   :alt: Requires.io
+.. image:: https://img.shields.io/pypi/dm/samsgeneratechangelog?style=flat-square   :alt: PyPI - Downloads
+.. image:: https://img.shields.io/github/license/sam-martin/sams-generate-changelog?style=flat-square   :alt: GitHub
+
 Yet another changelog generator!
 
 Sam's Generate Changelog focusses on making it easy to group information about your commits by 
