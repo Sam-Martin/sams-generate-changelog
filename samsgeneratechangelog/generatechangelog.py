@@ -21,7 +21,7 @@ class GenerateChangelog:
         custom_attributes (dict): A dictionary of of custom attributes to make available under each file object
             in the template
     """
-    templates_requiring_custom_attributes = [
+    _templates_requiring_custom_attributes = [
         'jira_id_all_commits',
         'jira_id_by_change_type',
         'root_folder_all_commits'
@@ -54,7 +54,7 @@ class GenerateChangelog:
     def _get_template_file(self, template_file, template_name):
         if template_file:
             return template_file
-        if template_name in self.templates_requiring_custom_attributes and not self.custom_attributes:
+        if template_name in self._templates_requiring_custom_attributes and not self.custom_attributes:
             raise ValueError(
                 f'{template_name} requires a custom attribute specification to be provided,'
                 ' please consult the documentation'

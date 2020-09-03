@@ -1,3 +1,4 @@
+import sys
 import json
 import configargparse
 from .generatechangelog import GenerateChangelog
@@ -67,16 +68,16 @@ def arg_parser():
     )
     parser.add(
         '--output-file',
-        required=False,
+        required='save' in sys.argv,
         env_var='SGC_output_file',
         help='The path to a changelog file to update',
     )
     parser.add(
         '--entry-id',
-        required=False,
+        required='save' in sys.argv,
         env_var='SGC_entry_id',
         help='An ID unique to this changelog entry that can be used to '
-        'update it in future if required(normally the semantic version)',
+        'update it in future if required (normally the semantic version)',
     )
 
     parser.add(
