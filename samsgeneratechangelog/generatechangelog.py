@@ -14,7 +14,7 @@ class GenerateChangelog:
     Parameters:
         start_ref (string): The commit sha or git ref (tag/head/etc) that the comparison will start from
         end_ref (string): The commit sha or git ref (tag/head/etc) that the comparison will end at
-        header_text (string): The text that appears in the header of the template
+        template_variables (dict): A dict of variables to pass to Jinja's Template
         git_path (string): The path (relative to the cwd or absolute) that contains the `.git` folder
         template_file (string): The path (relative to the cwd or absolute) to a custom jinja2 template file
         template_name (string): The name of one of the templates bundled with the SamsGenerateChangelog package
@@ -27,7 +27,7 @@ class GenerateChangelog:
         'root_folder_all_commits'
     ]
 
-    def __init__(self, start_ref, end_ref, header_text, git_path='.',
+    def __init__(self, start_ref, end_ref, git_path='.', template_variables=None,
                  custom_attributes=None, template_file=None,
                  template_name='author_by_change_type'):
         """Inits GenerateChangeLog.
@@ -35,7 +35,7 @@ class GenerateChangelog:
         Attributes:
             start_ref,
             end_ref,
-            header_text,
+            template_variables,
             git_path,
             custom_attributes,
             template_file
@@ -43,7 +43,7 @@ class GenerateChangelog:
         """
         self.start_ref = start_ref
         self.end_ref = end_ref
-        self.header_text = header_text
+        self.template_variables = template_variables or {}
         self.git_path = git_path
         self.custom_attributes = custom_attributes
         self.template_file = self._get_template_file(
@@ -85,9 +85,10 @@ class GenerateChangelog:
         return self._get_markdown_template().render(
             start_ref=self.start_ref,
             end_ref=self.end_ref,
-            header_text=self.header_text,
             file_commits=self.git_helper.commit_log(
-                self.start_ref, self.end_ref)
+                self.start_ref, self.end_ref
+            ),
+            **self.template_variables
         )
 
     def render_markdown_to_file(self, file_path, entry_id):

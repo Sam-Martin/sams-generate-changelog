@@ -5,6 +5,14 @@ import configargparse
 from .generatechangelog import GenerateChangelog
 
 
+def arg_variable_to_dict(arg_values):
+    """Take a list of lists from the --var arg and return a dictionary."""
+    return {
+        kv[0]: kv[1]
+        for kv in arg_values
+    }
+
+
 def arg_parser():
     """Returns a configured ArgParser object from configargparse."""
     parser = configargparse.ArgParser(
@@ -35,10 +43,12 @@ def arg_parser():
         help='The commit sha or git ref (tag/head/etc) that the comparison will end at'
     )
     parser.add(
-        '--header-text',
-        env_var='SGC_header_text',
-        required=True,
-        help='The text that appears in the header of the template'
+        '--var',
+        env_var='SGC_var',
+        action='append',
+        required=False,
+        nargs='+',
+        help='Arbitrary number of variables to supply to the Jinja2 Template'
     )
     parser.add(
         '--git-path',
