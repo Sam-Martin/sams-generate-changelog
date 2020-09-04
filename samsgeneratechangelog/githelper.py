@@ -1,6 +1,4 @@
-"""
-A series of helper classes for dealing with pygit
-"""
+"""A series of helper classes for dealing with pygit."""
 import os
 import re
 import logging
@@ -9,7 +7,7 @@ from datetime import datetime
 
 
 class FileCommit():
-    """ A single file changed by a commit
+    """A single file changed by a commit.
 
     Parameters:
         commit (Commit): The :class:`~git.objects.commit.Commit` that this file was changed in
@@ -32,6 +30,7 @@ class FileCommit():
     """
 
     def __init__(self, commit, file_path, change_type, repo, custom_attributes=None):
+        """Init FileCommit with  commit, file_path, change_type, friendly_change_type."""
         change_types = {'A': 'Added', 'M': 'Modified',
                         'D': 'Deleted', 'R': 'Renamed', 'T': 'Type Change'}
         self.commit = commit
@@ -46,7 +45,7 @@ class FileCommit():
 
     @property
     def hexsha_short(self):
-        """ Short version of the commit sha
+        """Short version of the commit sha.
 
         Returns:
             str
@@ -57,7 +56,7 @@ class FileCommit():
 
     @property
     def committed_date(self):
-        """ Get a python datetime object of the committed date
+        """Python datetime object of the committed date.
 
         Returns:
             datetime
@@ -65,8 +64,7 @@ class FileCommit():
         return datetime.fromtimestamp(self.commit.committed_date)
 
     def __getattr__(self, attr):
-        """ Return the value from the commit object if the attribute
-        was one of FileCommit's directly """
+        """Return the value from the commit object if not found directly on FileCommit object."""
         return getattr(self.commit, attr)
 
     def _generate_custom_attributes(self, custom_attributes):
@@ -83,12 +81,12 @@ class FileCommit():
             setattr(self, attr, match[0] if match else '')
 
     def __repr__(self):
+        """Return representation of the file commit."""
         return f"FileCommit({self.commit}, {self.file_path}, {self.change_type})"
 
 
 class GitHelper:
-    """
-    Helper class to facilitate in diffing and organising commits
+    """Helper class to facilitate in diffing and organising commits.
 
     Parameters:
         path (string): Path to the folder containing the git repo
@@ -98,6 +96,7 @@ class GitHelper:
     """
 
     def __init__(self, path, custom_attributes=None):
+        """Init GitHelper with repo, git, and custom_attributes."""
         logging.debug(f'Using git repo {path}')
         self.repo = git.Repo(path or os.path.dirname(
             os.path.realpath(__file__)
@@ -106,8 +105,7 @@ class GitHelper:
         self.custom_attributes = custom_attributes
 
     def commit_log(self, rev_a, rev_b):
-        """ Get commit objects for every commit between
-        rev_a and rev_b """
+        """Get commit objects for every commit between rev_a and rev_b."""
         commit_ids = self.git.log(
             '--pretty=%H', f"{rev_a}...{rev_b}").split('\n')
         for commit_id in commit_ids:
@@ -116,8 +114,7 @@ class GitHelper:
                 yield file_commit
 
     def generate_file_commits_from_commit(self, commit):
-        """ Returns a list of FileCommit objects that represent a file changed
-        by the commit as well as the change type and all other commit metadata """
+        """Returns a list of FileCommit objects from a given commit."""
         # TODO: Support generating list of files added from first commit (i.e. commit without parents)
         diff_to_parent = commit.parents[0].diff(commit)
         for change_type in diff_to_parent.change_type:
