@@ -98,7 +98,7 @@ Finally we will identify the `last_commit` for each file in that change type and
 the author and commit date for it.
 
 .. note:: Note how we escaped the regex character classes in the pattern JSON with an 
-    extra slash so :code:`^\\w+-\\d+` became :code:`^\\\\\\w+-\\\\\\d+`. Without this we will get a JSON parsing error.
+    extra slash so :code:`^\w+-\d+` became :code:`^\\w+-\\d+`. Without this we will get a JSON parsing error.
 
 
 Commits for `HEAD~9` to `HEAD~8`
