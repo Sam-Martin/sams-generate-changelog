@@ -11,7 +11,7 @@ DEFAULT_ARGS = [
     '--git-path', os.path.join(TEST_FOLDER, '..'),
     '--start-ref', '0520826f8057485f8f86f7198149c7b4ea6b6aa2',
     '--end-ref', 'ac77514f027554af76506833825d418e5072a866',
-    '--header-text', '1.0.0'
+    '--var', 'header_text', '1.0.0'
 ]
 CUSTOM_TEMPLATE_ARGS = DEFAULT_ARGS.copy()
 CUSTOM_TEMPLATE_ARGS.extend([

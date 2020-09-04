@@ -1,7 +1,7 @@
 """Container for commandline entrypoints."""
 import logging
 from .generatechangelog import GenerateChangelog
-from .config import arg_parser
+from .config import arg_parser, arg_variable_to_dict
 
 
 def main():
@@ -13,13 +13,13 @@ def main():
         for param in [
             'start_ref',
             'end_ref',
-            'header_text',
             'git_path',
             'custom_attributes',
             'template_file',
             'template_name'
         ]
     }
+    parameters['template_variables'] = arg_variable_to_dict(args.var)
     gc = GenerateChangelog(**parameters)
 
     if args.verb.lower() == 'print':

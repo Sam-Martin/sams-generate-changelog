@@ -21,7 +21,6 @@ class FileCommit():
         commit (Commit): The :class:`~git.objects.commit.Commit` object for this commit
         author (Actor): The :class:`~git.util.Actor` object that authored the commit.
             Contains :attr:`email` and :attr:`name` attributes
-        author_date (datetime): Date authored
         committer (str): Committer
         hexsha (str): Long form commit sha
         message (str): The commit message

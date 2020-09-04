@@ -26,7 +26,7 @@ changelog entry. This is invisible once rendered and ensures that running the sa
 will *replace* the changelog entry rather than keep prepending it repeatedly.
 
 
-.. note :: Note the repetition of `0.0.1` as the `--header-text` and the `--entry-id`. 
+.. note :: Note the repetition of `0.0.1` as the `--var header_text` and the `--entry-id`. 
     The entry ID is used as a delimiter to uniquely identify an entry in the file.
 
 
@@ -41,7 +41,7 @@ Command
 
 .. code-block :: bash
 
-    sgc print --start-ref HEAD~3 --end-ref HEAD --header-text 0.0.1 --template-name author_by_change_type
+    sgc print --start-ref HEAD~3 --end-ref HEAD --var header_text 0.0.1 --template-name author_by_change_type
 
 Outputs
 """""""""""""""
@@ -136,7 +136,7 @@ Command
 
 .. code-block :: bash
 
-    sgc print --start-ref HEAD~9 --end-ref HEAD~8 --header-text 0.0.1 --custom-attribute '{"jira_id": {"derived_from": "message", "pattern": "^\\w+-\\d+"}}' --template-file jira_id_by_change_type.j2 
+    sgc print --start-ref HEAD~9 --end-ref HEAD~8 --var header_text 0.0.1 --custom-attribute '{"jira_id": {"derived_from": "message", "pattern": "^\\w+-\\d+"}}' --template-file jira_id_by_change_type.j2 
 
 Outputs
 """"""""
@@ -167,3 +167,14 @@ Outputs
     - samsgeneratechangelog/generatechangelog.py - Sam Martin - 2020-09-01 17:08:02
     - samsgeneratechangelog/githelper.py - Sam Martin - 2020-09-01 17:08:02
     - tests/test_generatechangelog.py - Sam Martin - 2020-09-01 17:08:02
+
+.. _template-variables:
+
+Custom template variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All the templates bundled with Sam's Generate Changelog allow header text to be specified using 
+`--var header_text <value>`. But what if you want to add, say, a CR number to that?
+
+
+.. include:: cmdline_snippets/custom-variables.rst
