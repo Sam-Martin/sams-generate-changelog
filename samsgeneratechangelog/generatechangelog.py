@@ -1,3 +1,4 @@
+"""Generate a changelog from git commit history."""
 import os
 from jinja2 import Template
 from .githelper import GitHelper
@@ -8,8 +9,7 @@ TEMPLATES_DIR = os.path.sep.join([MODULE_DIR, 'templates'])
 
 
 class GenerateChangelog:
-    """
-    Generate a changelog by rendering a simple but flexible CommitFile object using jinja2
+    """Generate a changelog by rendering a simple but flexible CommitFile object using jinja2.
 
     Parameters:
         start_ref (string): The commit sha or git ref (tag/head/etc) that the comparison will start from
@@ -30,6 +30,17 @@ class GenerateChangelog:
     def __init__(self, start_ref, end_ref, header_text, git_path='.',
                  custom_attributes=None, template_file=None,
                  template_name='author_by_change_type'):
+        """Inits GenerateChangeLog.
+
+        Attributes:
+            start_ref,
+            end_ref,
+            header_text,
+            git_path,
+            custom_attributes,
+            template_file
+            git_helper
+        """
         self.start_ref = start_ref
         self.end_ref = end_ref
         self.header_text = header_text
@@ -44,7 +55,7 @@ class GenerateChangelog:
 
     @classmethod
     def get_template_names(cls):
-        """ Returns a list of valid template names """
+        """Returns a list of valid template names."""
         return [
             os.path.splitext(file_name)[0]
             for file_name in os.listdir(TEMPLATES_DIR)
@@ -70,7 +81,7 @@ class GenerateChangelog:
         return file_path
 
     def render_markdown(self):
-        """ Return the rendered markdown provided by the template """
+        """Return the rendered markdown provided by the template."""
         return self._get_markdown_template().render(
             start_ref=self.start_ref,
             end_ref=self.end_ref,
@@ -80,8 +91,10 @@ class GenerateChangelog:
         )
 
     def render_markdown_to_file(self, file_path, entry_id):
-        """ Render the markdown provided by the template and prepend it to a file
-        if an entry already exists pertaining to the current entry_id it will be overwritten """
+        """Render the markdown provided by the template and prepend it to a file.
+
+        If an entry already exists pertaining to the current entry_id it will be overwritten.
+        """
         file_helper = ChangelogFileHelper(file_path=file_path)
         entry = self.render_markdown()
         file_helper.write_entry(entry, entry_id)

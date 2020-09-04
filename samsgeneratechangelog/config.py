@@ -1,3 +1,4 @@
+"""Provides methods responsible for managing configuration from the cmdline."""
 import sys
 import json
 import configargparse
@@ -5,6 +6,7 @@ from .generatechangelog import GenerateChangelog
 
 
 def arg_parser():
+    """Returns a configured ArgParser object from configargparse."""
     parser = configargparse.ArgParser(
         default_config_files=['sgc.conf'],
         description="Generate change log in Markdown"

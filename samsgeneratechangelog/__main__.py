@@ -1,9 +1,11 @@
+"""Container for commandline entrypoints."""
 import logging
 from .generatechangelog import GenerateChangelog
 from .config import arg_parser
 
 
 def main():
+    """Entry point for gcs commandline."""
     args = arg_parser().parse_args()
     logging.basicConfig(level=args.log_level.upper())
     parameters = {
