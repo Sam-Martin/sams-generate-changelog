@@ -10,12 +10,12 @@ The default template is `author_by_change_type` which prints out a list of files
 .. include:: cmdline_snippets/default-arguments.rst
 
 
-You can see that the file `tests/test_default_templates.py` appears twice, once per commit.
+You can see that the file :code:`tests/test_default_templates.py` appears twice, once per commit.
 
 Save to file
 ^^^^^^^^^^^^^^^^^^
 
-By adding `--output-file` and `--entry-id` we can write the output to a markdown file.
+By adding :code:`--output-file` and :code:`--entry-id` we can write the output to a markdown file.
 
 
 .. include:: cmdline_snippets/default-arguments-save.rst
@@ -26,7 +26,7 @@ changelog entry. This is invisible once rendered and ensures that running the sa
 will *replace* the changelog entry rather than keep prepending it repeatedly.
 
 
-.. note :: Note the repetition of `0.0.1` as the `--var header_text` and the `--entry-id`. 
+.. note :: Note the repetition of *0.0.1* as the :code:`--var header_text` and the :code:`--entry-id`. 
     The entry ID is used as a delimiter to uniquely identify an entry in the file.
 
 
@@ -34,7 +34,7 @@ Included templates
 ^^^^^^^^^^^^^^^^^^^^
 
 You can specify an alternative template (you can see a full list of templates in the 
-`samsgeneratechangelog/templates/` folder in the GitHub repo).
+:code:`samsgeneratechangelog/templates/` folder in the GitHub repo).
 
 Command
 """""""""""
@@ -69,7 +69,7 @@ Outputs
     - tests/test_default_templates.py - 2020-09-02 11:26:13
 
 
-By passing the template name `author_by_change_type` we can see `tests/test_default_templates.py` only appears once per change type, 
+By passing the template name :code:`author_by_change_type` we can see :code:`tests/test_default_templates.py` only appears once per change type, 
 showing the commit time of the latest commit for that change type. 
 
 Custom templates & attributes
@@ -90,7 +90,7 @@ In this example we're going to match a Jira ID at the beginning of the commit me
         }
     }
 
-This will provide us a custom attribute `jira_id` pulled from the commit message using the `^\\w+-\\d+` pattern which will be accessible on each `file_commit` object inside
+This will provide us a custom attribute :code:`jira_id` pulled from the commit message using the :code:`^\\w+-\\d+` pattern which will be accessible on each :code:`file_commit` object inside
 the Jinja2 template. 
 
 We will group our commits by that custom attribute, then subgroup them by change type. 
@@ -98,7 +98,7 @@ Finally we will identify the `last_commit` for each file in that change type and
 the author and commit date for it.
 
 .. note:: Note how we escaped the regex character classes in the pattern JSON with an 
-    extra slash so `^\\w+-\\d+` became `^\\\\\\w+-\\\\\\d+`. Without this we will get a JSON parsing error.
+    extra slash so :code:`^\\w+-\\d+` became :code:`^\\\\\\w+-\\\\\\d+`. Without this we will get a JSON parsing error.
 
 
 Commits for `HEAD~9` to `HEAD~8`
@@ -174,7 +174,7 @@ Custom template variables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 All the templates bundled with Sam's Generate Changelog allow header text to be specified using 
-`--var header_text <value>`. But what if you want to add, say, a CR number to that?
+:code:`--var header_text <value>`. But what if you want to add, say, a CR number to that?
 
 
 .. include:: cmdline_snippets/custom-variables.rst

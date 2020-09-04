@@ -11,7 +11,7 @@ Argument structure
 ^^^^^^^^^^^^^^^^^^^^^
 
 Whether supplying your custom attributes via the cmdline arguments or when 
-instantiating :class:`~generatechangelog.GenerateChangelog` you need to supply a structure as follows:
+instantiating :class:`~samsgeneratechangelog.GenerateChangelog` you need to supply a structure as follows:
 
 .. code-block :: json
 
@@ -37,11 +37,11 @@ Usage
 ^^^^^^^^^
 
 In the example above, the :class:`~samsgeneratechangelog.FileCommit` objects (accessible 
-in the template via the `file_commits` variable) will be given a new attribute called :attr:`jira_id`.
-This attribute will be produced by applying the pattern `^\\w+-\\d+` against the 
+in the template via the :code:`file_commits` variable) will be given a new attribute called :attr:`jira_id`.
+This attribute will be produced by applying the pattern :code:`^\\w+-\\d+` against the 
 :attr:`~samsgeneratechangelog.FileCommit.commit` object's :attr:`message` attribute.
 
-The pattern `^\\w+-\\d+` will take a commit message like:
+The pattern :code:`^\\w+-\\d+` will take a commit message like:
 
 .. code-block :: none
 
