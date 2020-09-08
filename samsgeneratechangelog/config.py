@@ -9,7 +9,7 @@ def arg_variable_to_dict(arg_values):
     """Take a list of lists from the --var arg and return a dictionary."""
     return {
         kv[0]: kv[1]
-        for kv in arg_values
+        for kv in arg_values or []
     }
 
 
