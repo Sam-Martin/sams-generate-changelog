@@ -26,6 +26,9 @@ SAVE_FILE_ARGS.extend([
     '--entry-id', '1.0.0'
 ])
 
+NO_VARS_ARGS = DEFAULT_ARGS.copy()
+NO_VARS_ARGS = NO_VARS_ARGS[0:-3]
+
 
 def mock_std_to_string(mock_stdout):
     """ Take a mock_stdout object and return a standardised string that will match our fixtures """
@@ -57,6 +60,14 @@ class TestConfig(unittest.TestCase, TestMixin):
             file_a='CHANGELOG.md',
             file_b=os.path.join('fixtures', 'new_file_output.md')
         )
+
+    @patch('argparse._sys.argv', NO_VARS_ARGS)
+    def test_no_vars(self, mock_stdout):
+        main()
+
+        # The first line of the default template expects an var of header_text which will not
+        # be populated
+        mock_std_to_string(mock_stdout)[0] == '# '
 
 
 if __name__ == '__main__':
