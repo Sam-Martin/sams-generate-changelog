@@ -109,6 +109,9 @@ class GitHelper:
             '--pretty=%H', f"{rev_a}...{rev_b}").split('\n')
         for commit_id in commit_ids:
             commit = self.repo.commit(commit_id)
+            if len(commit.parents) > 1:
+                # Skip merge commits
+                continue
             for file_commit in self.generate_file_commits_from_commit(commit):
                 yield file_commit
 
