@@ -4,7 +4,7 @@ Using the cmdline
 Print to screen
 ^^^^^^^^^^^^^^^^^^
 
-The default template is `author_by_change_type` which prints out a list of files commited grouped by auth and change type
+The default template is `author_by_change_type` which prints out a list of files commited grouped by author and change type
 
 
 .. include:: cmdline_snippets/default-arguments.rst
