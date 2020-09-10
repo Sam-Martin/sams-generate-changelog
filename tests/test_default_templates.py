@@ -6,11 +6,12 @@ import pytest
 from samsgeneratechangelog import GenerateChangelog
 
 TEST_FOLDER = os.path.dirname(os.path.realpath(__file__))
+GIT_FOLDER = os.path.join(TEST_FOLDER, '..')
 DEFAULT_ARGS = {
     'start_ref': '0520826f8057485f8f86f7198149c7b4ea6b6aa2',
     'end_ref': 'ac77514f027554af76506833825d418e5072a866',
     'template_variables': {'header_text': '1.0.0'},
-    'git_path': os.path.join(TEST_FOLDER, '..')
+    'git_path': GIT_FOLDER
 }
 
 
@@ -55,7 +56,7 @@ class TestGenerateChangelog(unittest.TestCase):
         generate_changelog = GenerateChangelog(
             template_name='root_folder_all_commits',
             custom_attributes={
-                'root_folder': {'derived_from': 'file_path', 'pattern': r'^([^/])+/|'}
+                'root_folder': {'derived_from': 'file_path', 'pattern': r'^([^/]+)/|'}
             },
             **DEFAULT_ARGS
         )

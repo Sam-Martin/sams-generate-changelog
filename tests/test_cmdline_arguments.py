@@ -6,9 +6,10 @@ from .test_helper import TestMixin
 from samsgeneratechangelog.__main__ import main
 
 TEST_FOLDER = os.path.dirname(os.path.realpath(__file__))
+GIT_FOLDER = os.path.join(TEST_FOLDER, '..')
 DEFAULT_ARGS = [
     'test.py', 'print',
-    '--git-path', os.path.join(TEST_FOLDER, '..'),
+    '--git-path', GIT_FOLDER,
     '--start-ref', '0520826f8057485f8f86f7198149c7b4ea6b6aa2',
     '--end-ref', 'ac77514f027554af76506833825d418e5072a866',
     '--var', 'header_text', '1.0.0'
