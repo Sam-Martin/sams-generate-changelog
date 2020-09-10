@@ -1,6 +1,7 @@
 import os
 import unittest
-from samsgeneratechangelog import GitHelper
+from unittest.mock import Mock
+from samsgeneratechangelog.githelper import FileCommit, GitHelper
 
 TEST_FOLDER = os.path.dirname(os.path.realpath(__file__))
 GIT_FOLDER = os.path.join(TEST_FOLDER, '..')
@@ -15,3 +16,66 @@ class TestGitHelper(unittest.TestCase):
 
         for commit in results:
             assert len(commit.commit.parents) == 1
+
+
+class TestFileCommit(unittest.TestCase):
+
+    def test_properties(self):
+        mock_commit = Mock()
+        fc = FileCommit(mock_commit, 'README.md', 'M', Mock())
+
+        assert fc.file_path == 'README.md'
+        assert fc.friendly_change_type == 'Modified'
+        self.assertIsInstance(fc.author.name, Mock)
+
+    def test_custom_properties(self):
+        mock_commit = Mock()
+        mock_commit.message = 'JIRA-1234 - My first commit'
+        fc = FileCommit(
+            mock_commit,
+            'README.md',
+            'M',
+            Mock(),
+            {'jira_id': {'derived_from': 'message', 'pattern': r'^\w+-\d+'}}
+        )
+
+        assert fc.jira_id == 'JIRA-1234'
+
+    def test_custom_properties_matching_groups(self):
+        mock_commit = Mock()
+        mock_commit.message = 'My first commit - JIRA-1234'
+        fc = FileCommit(
+            mock_commit,
+            'README.md',
+            'M',
+            Mock(),
+            {'jira_id': {'derived_from': 'message', 'pattern': r'^\w+-(\d+)|\w+-(\d+)$'}}
+        )
+
+        assert fc.jira_id == '1234'
+
+    def test_custom_properties_multiple_matching_groups_first_group_matches(self):
+        mock_commit = Mock()
+        mock_commit.message = 'JIRA-1234 - My first commit - JIRA-5678'
+        fc = FileCommit(
+            mock_commit,
+            'README.md',
+            'M',
+            Mock(),
+            {'jira_id': {'derived_from': 'message', 'pattern': r'^(\w+-\d+)|(\w+-\d+)$'}}
+        )
+
+        assert fc.jira_id == 'JIRA-1234'
+
+    def test_custom_properties_multiple_matching_groups_second_group_matches(self):
+        mock_commit = Mock()
+        mock_commit.message = 'My first commit - JIRA-5678'
+        fc = FileCommit(
+            mock_commit,
+            'README.md',
+            'M',
+            Mock(),
+            {'jira_id': {'derived_from': 'message', 'pattern': r'^(\w+-\d+)|(\w+-\d+)$'}}
+        )
+
+        assert fc.jira_id == 'JIRA-5678'

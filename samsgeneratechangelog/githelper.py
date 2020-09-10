@@ -72,12 +72,20 @@ class FileCommit():
                           f"using {attribute_spec['pattern']} against {attribute_spec['derived_from']}")
             derived_from = getattr(self, attribute_spec['derived_from'])
             derived_from = derived_from or getattr(self.commit, attribute_spec['derived_from'])
-            match = re.search(
-                attribute_spec['pattern'],
-                derived_from,
-                re.IGNORECASE
-            )
-            setattr(self, attr, match[0] if match else '')
+            result = self._get_first_matching_group(attribute_spec['pattern'], derived_from)
+            setattr(self, attr, result)
+
+    @staticmethod
+    def _get_first_matching_group(pattern, string):
+        match = re.search(
+            pattern,
+            string,
+            re.IGNORECASE
+        )
+        groups = [group for group in match.groups() if group]
+        if groups:
+            return groups[0]
+        return match.group(0)
 
     def __repr__(self):
         """Return representation of the file commit."""
