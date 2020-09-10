@@ -79,3 +79,16 @@ class TestFileCommit(unittest.TestCase):
         )
 
         assert fc.jira_id == 'JIRA-5678'
+
+    def test_custom_properties_multiple_matching_groups_no_group_matches(self):
+        mock_commit = Mock()
+        mock_commit.message = 'My first commit '
+        fc = FileCommit(
+            mock_commit,
+            'README.md',
+            'M',
+            Mock(),
+            {'jira_id': {'derived_from': 'message', 'pattern': r'^(\w+-\d+)|(\w+-\d+)$'}}
+        )
+
+        assert fc.jira_id == ''

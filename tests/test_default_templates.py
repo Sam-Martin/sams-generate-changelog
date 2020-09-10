@@ -56,7 +56,7 @@ class TestGenerateChangelog(unittest.TestCase):
         generate_changelog = GenerateChangelog(
             template_name='root_folder_all_commits',
             custom_attributes={
-                'root_folder': {'derived_from': 'file_path', 'pattern': r'^([^/])+/|'}
+                'root_folder': {'derived_from': 'file_path', 'pattern': r'^([^/]+)/|'}
             },
             **DEFAULT_ARGS
         )

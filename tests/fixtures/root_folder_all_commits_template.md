@@ -7,7 +7,7 @@
  - setup.py - 30265ac - 2020-08-24 18:36:52 - Sam Martin
  - test.sh - a6ffd63 - 2020-08-26 17:53:19 - Sam Martin
 
-## docs/ Files
+## docs Files
 
  - docs/make.bat - 30265ac - 2020-08-24 18:36:52 - Sam Martin
  - docs/Makefile - a6ffd63 - 2020-08-26 17:53:19 - Sam Martin
@@ -24,7 +24,7 @@
  - docs/source/reference.rst - bac10be - 2020-08-24 20:43:10 - Sam Martin
  - docs/source/reference.rst - 30265ac - 2020-08-24 18:36:52 - Sam Martin
 
-## samsgeneratechangelog/ Files
+## samsgeneratechangelog Files
 
  - samsgeneratechangelog/__init__.py - df23c1b - 2020-09-01 13:54:08 - Sam Martin
  - samsgeneratechangelog/__init__.py - bac10be - 2020-08-24 20:43:10 - Sam Martin
@@ -65,7 +65,7 @@
  - samsgeneratechangelog/test.py - 4470935 - 2020-08-26 17:53:43 - Sam Martin
  - samsgeneratechangelog/test.py - a6ffd63 - 2020-08-26 17:53:19 - Sam Martin
 
-## tests/ Files
+## tests Files
 
  - tests/fixtures.py - df23c1b - 2020-09-01 13:54:08 - Sam Martin
  - tests/fixtures/author_single_file_entry_template.md - 2f4dbc5 - 2020-09-01 16:08:02 - Sam Martin

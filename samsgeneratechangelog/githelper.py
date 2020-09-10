@@ -82,6 +82,8 @@ class FileCommit():
             string,
             re.IGNORECASE
         )
+        if not match:
+            return ''
         groups = [group for group in match.groups() if group]
         if groups:
             return groups[0]
