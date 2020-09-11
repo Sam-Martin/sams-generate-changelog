@@ -16,7 +16,8 @@ def arg_variable_to_dict(arg_values):
 def arg_parser():
     """Returns a configured ArgParser object from configargparse."""
     parser = configargparse.ArgParser(
-        default_config_files=['sgc.conf'],
+        default_config_files=['.sgc'],
+        config_file_parser_class=configargparse.YAMLConfigFileParser,
         description="Generate change log in Markdown"
     )
     parser.add(
@@ -27,8 +28,9 @@ def arg_parser():
     parser.add(
         '--config-file',
         required=False,
+        is_config_file=True,
         env_var='SGC_config_file',
-        help='The path to an sgc.conf file'
+        help='The path to a .sgc config file'
     )
     parser.add(
         '--start-ref',

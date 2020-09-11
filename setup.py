@@ -20,7 +20,7 @@ setup(
     project_urls={
         "Documentation": "https://sams-generate-changelog.readthedocs.io/en/latest/"
     },
-    install_requires=['jinja2', 'configargparse', 'gitpython'],
+    install_requires=['jinja2', 'configargparse', 'gitpython', 'PyYAML'],
     package_data={
         "": ["templates/*.j2"],
     },
