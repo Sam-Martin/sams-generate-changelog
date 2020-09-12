@@ -101,7 +101,7 @@ class GenerateChangelog:
         file_helper.write_entry(entry, entry_id)
 
     def _get_markdown_template(self):
-        """Get the Jinja2 template object
+        """Get the Jinja2 template object.
 
         Use the directory self.template_file is in as a base path for template discovery
         because Jinja2 does not allow absolute template paths for `get_template`
