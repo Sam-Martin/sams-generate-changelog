@@ -42,7 +42,7 @@ def mock_std_to_string(mock_stdout):
 
 @patch('sys.stdout')
 @patch.dict('os.environ', {'TZ': 'UTC'})
-class TestConfig(unittest.TestCase, TestMixin):
+class TestCmdlineArguments(unittest.TestCase, TestMixin):
 
     def setUp(self):
         self._delete_files()
