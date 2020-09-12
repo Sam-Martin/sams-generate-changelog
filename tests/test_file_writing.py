@@ -4,7 +4,7 @@ from unittest.mock import patch
 import logging
 import pytest
 from .test_helper import TestMixin
-from .fixtures.defaults import DEFAULT_ARGS, TEST_FOLDER, GIT_FOLDER
+from .fixtures.defaults import DEFAULT_ARGS, TEST_FOLDER
 from samsgeneratechangelog import GenerateChangelog
 
 logging.basicConfig(level='DEBUG')

@@ -3,7 +3,7 @@ import time
 import unittest
 from unittest.mock import patch
 import pytest
-from .fixtures.defaults import DEFAULT_ARGS, TEST_FOLDER, GIT_FOLDER
+from .fixtures.defaults import DEFAULT_ARGS, TEST_FOLDER
 from samsgeneratechangelog import GenerateChangelog
 
 

@@ -1,7 +1,6 @@
-import os
 import unittest
 from unittest.mock import Mock
-from .fixtures.defaults import TEST_FOLDER, GIT_FOLDER
+from .fixtures.defaults import GIT_FOLDER
 from samsgeneratechangelog.githelper import FileCommit, GitHelper
 
 
