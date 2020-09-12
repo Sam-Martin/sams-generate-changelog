@@ -23,3 +23,12 @@ class TestJinjaFeatures(unittest.TestCase, TestMixin):
         result = gc.render_markdown()
 
         assert result == "# I AM INCLUSIVE\n## I AM INCLUDED"
+
+    def test_expression_statements(self):
+        gc = GenerateChangelog(**DEFAULT_ARGS, **{
+            'template_file': os.path.join(TEST_FOLDER, 'fixtures', 'template_expression_statement.j2')
+        })
+
+        result = gc.render_markdown()
+
+        assert result == "I appended successfully"

@@ -107,8 +107,11 @@ class GenerateChangelog:
         because Jinja2 does not allow absolute template paths for `get_template`
         when using FileSystemLoader.
         """
-        return Environment(loader=FileSystemLoader([
-            os.getcwd(),
-            TEMPLATES_DIR,
-            os.path.dirname(self.template_file),
-        ])).get_template(os.path.basename(self.template_file))
+        return Environment(
+            extensions=['jinja2.ext.do', 'jinja2.ext.loopcontrols'],
+            loader=FileSystemLoader([
+                os.getcwd(),
+                TEMPLATES_DIR,
+                os.path.dirname(self.template_file),
+            ])
+        ).get_template(os.path.basename(self.template_file))
