@@ -3,7 +3,7 @@
 Using config files
 ---------------------------
 
-By default SamsGenerateChangelog will look for a yaml config file named `.sgc` in the current working directory.
+By default SamsGenerateChangelog will look for a yaml config file named :code:`.sgc` in the current working directory.
 You can use all *named* arguments you would supply to the cmdline as key names in the config file.
 
 Example :code:`.sgc` with custom attributes
