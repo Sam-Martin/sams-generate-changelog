@@ -1,10 +1,7 @@
-import os
 import unittest
 from unittest.mock import Mock
+from .fixtures.defaults import GIT_FOLDER
 from samsgeneratechangelog.githelper import FileCommit, GitHelper
-
-TEST_FOLDER = os.path.dirname(os.path.realpath(__file__))
-GIT_FOLDER = os.path.join(TEST_FOLDER, '..')
 
 
 class TestGitHelper(unittest.TestCase):

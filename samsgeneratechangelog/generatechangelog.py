@@ -1,6 +1,6 @@
 """Generate a changelog from git commit history."""
 import os
-from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 from .githelper import GitHelper
 from .changelogfilehelper import ChangelogFileHelper
 
@@ -64,7 +64,7 @@ class GenerateChangelog:
 
     def _get_template_file(self, template_file, template_name):
         if template_file:
-            return template_file
+            return os.path.abspath(template_file)
         if template_name in self._templates_requiring_custom_attributes and not self.custom_attributes:
             raise ValueError(
                 f'{template_name} requires a custom attribute specification to be provided,'
@@ -78,7 +78,7 @@ class GenerateChangelog:
         if not os.path.isfile(file_path):
             raise ValueError(
                 f"{template_name} is not a template bundled with this version of Sam's Generate Changelog")
-        return file_path
+        return os.path.abspath(file_path)
 
     def render_markdown(self):
         """Return the rendered markdown provided by the template."""
@@ -101,5 +101,17 @@ class GenerateChangelog:
         file_helper.write_entry(entry, entry_id)
 
     def _get_markdown_template(self):
-        with open(self.template_file) as reader:
-            return Template(reader.read())
+        """Get the Jinja2 template object.
+
+        Use the directory self.template_file is in as a base path for template discovery
+        because Jinja2 does not allow absolute template paths for `get_template`
+        when using FileSystemLoader.
+        """
+        return Environment(
+            extensions=['jinja2.ext.do', 'jinja2.ext.loopcontrols'],
+            loader=FileSystemLoader([
+                os.getcwd(),
+                TEMPLATES_DIR,
+                os.path.dirname(self.template_file),
+            ])
+        ).get_template(os.path.basename(self.template_file))

@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    version='1.1.0',
+    version='1.2.0',
     python_requires='>=3.6.0',
     name='samsgeneratechangelog',
     packages=['samsgeneratechangelog'],
@@ -20,7 +20,7 @@ setup(
     project_urls={
         "Documentation": "https://sams-generate-changelog.readthedocs.io/en/latest/"
     },
-    install_requires=['jinja2', 'configargparse', 'gitpython'],
+    install_requires=['jinja2', 'configargparse', 'gitpython', 'PyYAML'],
     package_data={
         "": ["templates/*.j2"],
     },

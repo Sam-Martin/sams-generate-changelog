@@ -1,0 +1,9 @@
+output-file: CHANGELOG.md
+template-name: jira_id_all_commits
+custom-attributes: |
+    {
+        "jira_id": {
+            "derived_from": "message",
+            "pattern": "^\\w+-\\d+"
+        }
+    }

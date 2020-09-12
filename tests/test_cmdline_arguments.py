@@ -30,6 +30,11 @@ SAVE_FILE_ARGS.extend([
 NO_VARS_ARGS = DEFAULT_ARGS.copy()
 NO_VARS_ARGS = NO_VARS_ARGS[0:-3]
 
+CONFIG_FILE_ARGS = SAVE_FILE_ARGS.copy()
+CONFIG_FILE_ARGS.extend([
+    '--config-file', os.path.join(TEST_FOLDER, 'fixtures', '.sgc')
+])
+
 
 def mock_std_to_string(mock_stdout):
     """ Take a mock_stdout object and return a standardised string that will match our fixtures """
@@ -38,7 +43,7 @@ def mock_std_to_string(mock_stdout):
 
 @patch('sys.stdout')
 @patch.dict('os.environ', {'TZ': 'UTC'})
-class TestConfig(unittest.TestCase, TestMixin):
+class TestCmdlineArguments(unittest.TestCase, TestMixin):
 
     def setUp(self):
         self._delete_files()
@@ -69,6 +74,15 @@ class TestConfig(unittest.TestCase, TestMixin):
         # The first line of the default template expects an var of header_text which will not
         # be populated
         mock_std_to_string(mock_stdout)[0] == '# '
+
+    @patch('argparse._sys.argv', CONFIG_FILE_ARGS)
+    def test_config_file(self, mock_stdout):
+        main()
+
+        self.assertFileContentsEqual(
+            file_a='CHANGELOG.md',
+            file_b=os.path.join('fixtures', 'jira_id_all_commits_output.md')
+        )
 
 
 if __name__ == '__main__':
